@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// import { computed } from "@vue/reactivity";
 //@ts-nocheck
 import { ref } from "vue";
 import draggable from "vuedraggable";
@@ -12,8 +11,11 @@ function addElement(element: any) {
     if (elementIdx > -1) {
         activeElements.value.splice(elementIdx, 1)
         element.isActive = false
+        element.isOpen = false
         return
     }
+
+    element.isOpen = true
     element.isActive = true
     activeElements.value.push(element.id)
 }
@@ -23,7 +25,6 @@ function isActive(element) {
     return elementIdx > -1
 }
 
-
 </script>
 
 
@@ -32,8 +33,9 @@ function isActive(element) {
         <template #item="{ element }">
             <li class="mx-4" @click.stop="addElement(element)">
                 <NestedItem :item="element" />
-                <!-- <p>{{ element.name }}</p> -->
-                <NestedDraggable v-if="isActive(element)" :list="element.children" :children="element.children" />
+                <NestedDraggable v-if="isActive(element) || element?.isOpen" :list="element.children"
+                    :children="element.children" />
+                <NestedDraggable v-else :list="[]" :children="[]" />
             </li>
         </template>
     </draggable>
