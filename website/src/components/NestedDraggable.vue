@@ -33,9 +33,8 @@ function isActive(element) {
         <template #item="{ element }">
             <li class="mx-4" @click.stop="addElement(element)">
                 <NestedItem :item="element" />
-                <NestedDraggable v-if="isActive(element) || element?.isOpen" :list="element.children"
-                    :children="element.children" />
-                <NestedDraggable v-else :list="[]" :children="[]" />
+                <NestedDraggable v-if="(element?.isFolder) && (isActive(element) || element?.isOpen)"
+                    :list="element.children" :children="element.children" />
             </li>
         </template>
     </draggable>
