@@ -27,3 +27,13 @@ import DocumentEditor from './components/DocumentEditor.vue';
     </div>
 </template>
 
+<style>
+.prose li {
+    @apply flex items-center gap-2 flex-wrap w-full
+}
+
+.prose li  img {
+    @apply m-0 !important
+}
+</style>
+

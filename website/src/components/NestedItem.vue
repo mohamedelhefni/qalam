@@ -14,6 +14,9 @@ let editText = ref(item?.name)
 
 function deleteDoc(doc: any) {
     store.deleteDocument(doc)
+    if (store.docs.length > 0) {
+        store.setActiveDoc(store.docs[0])
+    }
 }
 
 function doneEdit(item: any) {
@@ -41,7 +44,7 @@ function doneEdit(item: any) {
             </p>
         </div>
         <div class=" hidden group-hover:block w-1/6 ">
-            <img @click="deleteDoc(item)" class="w-8 p-1 " :src="TrashRedIcon" />
+            <img @click.stop="deleteDoc(item)" class="w-8 p-1 " :src="TrashRedIcon" />
         </div>
     </div>
 </template>
