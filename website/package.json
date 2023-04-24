@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@types/marked": "^4.0.8",
+    "@vercel/analytics": "^1.0.0",
     "lodash-es": "^4.17.21",
     "marked": "^4.3.0",
     "pinia": "^2.0.35",
