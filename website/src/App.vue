@@ -28,12 +28,10 @@ import DocumentEditor from './components/DocumentEditor.vue';
 </template>
 
 <style>
-.prose li {
-    @apply flex items-center gap-2 flex-wrap w-full
-}
+
 
 .prose li  img {
-    @apply m-0 !important
+    @apply m-0 inline-block !important
 }
 </style>
 

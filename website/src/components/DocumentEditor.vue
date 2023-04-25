@@ -26,7 +26,7 @@ const update = (e: any) => {
                 class="no-scrollbar w-full h-full min-h-screen leading-8 text-lg outline-none "
                 :value="store.activeDoc?.content" @input="update"></textarea>
         </div>
-        <div class="preview py-5 pr-10 prose" v-html="output">
+        <div class="preview py-5 pr-10 prose " v-html="output">
         </div>
     </div>
 </template>
