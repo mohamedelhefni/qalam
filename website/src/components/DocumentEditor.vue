@@ -5,13 +5,16 @@ import Highlight from '@tiptap/extension-highlight'
 import Typography from '@tiptap/extension-typography'
 import Image from '@tiptap/extension-image'
 import Refresh from "/Refresh.svg"
+import MenuIcon from "/Menu.svg"
 
 
 import { useDocumentsStore } from "../store/documents"
+import { useUIStore } from "../store/ui"
 import { onBeforeUnmount, onUpdated, ref } from "vue";
-const store = useDocumentsStore()
+const documentStore = useDocumentsStore()
+const uiStore = useUIStore()
 
-const value = ref(store.activeDoc?.content || "")
+const value = ref(documentStore.activeDoc?.content || "")
 const editor = new Editor({
     extensions: [
         StarterKit,
@@ -27,14 +30,14 @@ const editor = new Editor({
     ],
     content: value.value || "",
     onUpdate: ({ editor }) => {
-        store.activeDoc.content = editor.getHTML()
+        documentStore.activeDoc.content = editor.getHTML()
     },
 })
 
 
 onUpdated(() => {
     editor.commands.focus()
-    value.value = store.activeDoc?.content
+    value.value = documentStore.activeDoc?.content
     editor.commands.setContent(value.value, false)
 })
 
@@ -48,11 +51,15 @@ onBeforeUnmount(() => {
 <template>
     <div class="w-full prose flex flex-col gap-5 p-5 max-w-6xl mx-auto">
         <div class="flex items-center justify-between">
-            <h2 class="text-4xl font-bold p-2 m-0 ">
-                {{ store.activeDoc?.name }}
-            </h2>
+            <div class="flex items-center gap-2">
+                <img @click="" class="w-10 hover:bg-gray-100 rounded p-1 " :src="Refresh" />
+                <h2 class="text-4xl font-bold p-2 m-0 ">
+                    {{ documentStore.activeDoc?.name }}
+                </h2>
+            </div>
             <button class="">
-                <img @click.stop="" class="w-10 hover:bg-gray-100 rounded p-1 " :src="Refresh" />
+                <img @click="uiStore.toggleSidebar()" class="w-10 hover:bg-gray-100 rounded p-1 block md:hidden "
+                    :src="MenuIcon" />
             </button>
         </div>
 
