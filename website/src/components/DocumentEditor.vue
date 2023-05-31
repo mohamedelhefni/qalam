@@ -1,36 +1,76 @@
 <script setup lang="ts">
-import { useDocumentsStore } from "../store/documents"
-import { marked } from 'marked'
-import { computed, onUpdated, ref } from "vue";
-const store = useDocumentsStore()
-const output = computed(() => marked(store.activeDoc?.content || ""))
-const input = ref()
+import { Editor, EditorContent } from '@tiptap/vue-3'
+import StarterKit from '@tiptap/starter-kit'
+import Highlight from '@tiptap/extension-highlight'
+import Typography from '@tiptap/extension-typography'
+import Image from '@tiptap/extension-image'
+import Refresh from "/Refresh.svg"
 
-onUpdated(() => {
-    input.value?.focus()
+
+
+import { useDocumentsStore } from "../store/documents"
+import { onBeforeUnmount, onUpdated, ref } from "vue";
+const store = useDocumentsStore()
+
+const value = ref(store.activeDoc?.content || "")
+const editor = new Editor({
+    extensions: [
+        StarterKit,
+        Highlight,
+        Typography,
+        Image.configure({
+            inline: true, allowBase64: true,
+            HTMLAttributes: {
+                class: 'uploaded-image',
+            },
+        }),
+
+    ],
+    content: value.value || "",
+    onUpdate: ({ editor }) => {
+        store.activeDoc.content = editor.getHTML()
+    },
 })
 
-const update = (e: any) => {
-    store.activeDoc.content = e.target.value
-}
+
+onUpdated(() => {
+    editor.commands.focus()
+    value.value = store.activeDoc?.content
+    editor.commands.setContent(value.value, false)
+})
+
+onBeforeUnmount(() => {
+    editor.destroy()
+})
+
 
 </script>
 
 <template>
-    <div class="grid grid-cols-2">
-        <div class="markdown  border-l py-5 pl-5  pr-10">
-            <h2 class="text-2xl font-bold">
+    <div class="w-full prose flex flex-col gap-5 p-5 max-w-6xl mx-auto">
+        <div class="flex items-center justify-between">
+            <h2 class="text-4xl font-bold p-2 m-0 ">
                 {{ store.activeDoc?.name }}
             </h2>
-            <textarea autofocus name="markdown" ref="input"
-                class="no-scrollbar w-full h-full min-h-screen leading-8 text-lg outline-none "
-                :value="store.activeDoc?.content" @input="update"></textarea>
+            <button class="">
+                <img @click.stop="" class="w-10 hover:bg-gray-100 rounded p-1 " :src="Refresh" />
+            </button>
         </div>
-        <div class="preview py-5 pr-10 prose " v-html="output">
-        </div>
+
+        <editor-content :editor="editor" />
     </div>
 </template>
 <style>
+.ProseMirror:focus {
+    outline: none;
+}
+
+.ProseMirror {
+    min-height: 100vh;
+    width: 100%;
+    overflow: scroll;
+}
+
 /* Hide scrollbar for Chrome, Safari and Opera */
 .no-scrollbar::-webkit-scrollbar {
     display: none;
