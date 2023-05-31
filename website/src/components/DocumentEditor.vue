@@ -7,7 +7,6 @@ import Image from '@tiptap/extension-image'
 import Refresh from "/Refresh.svg"
 
 
-
 import { useDocumentsStore } from "../store/documents"
 import { onBeforeUnmount, onUpdated, ref } from "vue";
 const store = useDocumentsStore()

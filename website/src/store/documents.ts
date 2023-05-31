@@ -44,7 +44,8 @@ export const useDocumentsStore = defineStore("documents", () => {
       ],
     },
   ]);
-
+  let docsSearchResult = ref([])
+  let searchName = ref("")
   let activeDoc = ref();
 
   let itemResult = ref({});
@@ -102,5 +103,28 @@ export const useDocumentsStore = defineStore("documents", () => {
     activeDoc.value = doc;
   }
 
-  return { docs, addDocument, deleteDocument, activeDoc, setActiveDoc };
+  function searchByName(name: string) {
+    searchName.value = name
+    if (name) {
+      docsSearchResult.value = search(docs.value, name)
+    }
+  }
+
+  function search(docs: any, name: string, result: any = []) {
+    docs.forEach((doc: any) => {
+
+      if (doc.name.includes(name) && !doc?.isDeleted) {
+        result.push(doc)
+      }
+
+      if (doc?.children && doc.children.length > 0) {
+        search(doc.children, name, result)
+      }
+    })
+
+    return result
+  }
+
+
+  return { docs, searchDocs: docsSearchResult, searchName, searchByName, addDocument, deleteDocument, activeDoc, setActiveDoc };
 });
