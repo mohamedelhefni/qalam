@@ -17,6 +17,7 @@ import Sidebar from "./components/Sidebar.vue"
 
         <div class="drawer lg:drawer-open">
             <input id="sidebar-drawer" type="checkbox" class="drawer-toggle" />
+            <div class="lg:w-[300px]"></div>
             <div class="drawer-content flex flex-col items-center justify-center">
                 <DocumentEditor />
             </div>
