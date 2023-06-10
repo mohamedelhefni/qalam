@@ -29,7 +29,7 @@ function doneEdit(item: any) {
 </script>
 <template>
     <div v-if="!item?.isDeleted" class="flex items-center   justify-between rounded cursor-pointer gap-1  group"
-        :class="{ 'bg-gray-200': store.activeDoc?.id === item?.id }"
+        :class="{ 'bg-base-100': store.activeDoc?.id === item?.id }"
         @click="item?.children.length === 0 && !item?.isFolder && store.setActiveDoc(item)" @dblclick="isEdit = true">
         <div class="flex items-center w-5/6">
             <div class="icon">

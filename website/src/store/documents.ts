@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
 
 export const useDocumentsStore = defineStore("documents", () => {
   let docs = ref([
@@ -47,8 +47,9 @@ export const useDocumentsStore = defineStore("documents", () => {
   let docsSearchResult = ref([])
   let searchName = ref("")
   let activeDoc = ref();
-
+  let deletedDocs = ref<any[]>([])
   let itemResult = ref({});
+
   function getItem(document: any, documents: any = docs) {
     let documentsArray = documents.value || documents;
     for (let doc of documentsArray) {
@@ -63,6 +64,36 @@ export const useDocumentsStore = defineStore("documents", () => {
     return itemResult.value;
   }
 
+  function getDeletedDocs(documents: any = docs, deletedDocs: any = []) {
+    let documentsArray = documents.value || documents;
+    for (let doc of documentsArray) {
+      if (doc.isDeleted) {
+        deletedDocs.push(doc)
+      }
+      if (doc?.children.length > 0 && doc?.isFolder) {
+        getDeletedDocs(doc.children, deletedDocs);
+      }
+    }
+    return deletedDocs
+  }
+
+  function restoreDeleted(doc: any) {
+    doc.isDeleted = false
+    deletedDocs.value = getDeletedDocs(docs)
+  }
+
+  function rmDocument(doc: any, documents: any = docs) {
+    let documentsArray = documents.value || documents;
+    documentsArray.forEach((child: any, index: any) => {
+      if (child.id == doc.id) documentsArray.splice(index, 1)
+      if (child?.children) {
+        rmDocument(doc, child?.children)
+      }
+    })
+
+    deletedDocs.value = getDeletedDocs(docs)
+  }
+
   const docsInLocalStore = localStorage.getItem("documents");
   if (docsInLocalStore) {
     docs.value = JSON.parse(docsInLocalStore)._value;
@@ -74,6 +105,8 @@ export const useDocumentsStore = defineStore("documents", () => {
   } else {
     activeDoc.value = docs.value[0];
   }
+
+  deletedDocs.value = getDeletedDocs(docs)
 
   watch(
     () => docs,
@@ -87,6 +120,7 @@ export const useDocumentsStore = defineStore("documents", () => {
     () => activeDoc,
     (state) => {
       localStorage.setItem("activeDoc", JSON.stringify(state));
+
     },
     { deep: true }
   );
@@ -97,6 +131,7 @@ export const useDocumentsStore = defineStore("documents", () => {
 
   function deleteDocument(doc: any) {
     doc.isDeleted = true;
+    deletedDocs.value.push(doc)
   }
 
   function setActiveDoc(doc: any) {
@@ -126,5 +161,5 @@ export const useDocumentsStore = defineStore("documents", () => {
   }
 
 
-  return { docs, searchDocs: docsSearchResult, searchName, searchByName, addDocument, deleteDocument, activeDoc, setActiveDoc };
+  return { docs, searchDocs: docsSearchResult, searchName, searchByName, addDocument, deleteDocument, activeDoc, setActiveDoc, deletedDocs, restoreDeleted, rmDocument };
 });

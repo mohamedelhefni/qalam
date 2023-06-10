@@ -3,7 +3,7 @@
 import { ref } from "vue";
 import draggable from "vuedraggable";
 import NestedItem from "./NestedItem.vue";
-const props = defineProps({ children: Array<any> })
+const props = defineProps({ children: Array<any>, group: Object })
 const activeElements = ref([])
 
 function addElement(element: any) {
@@ -34,7 +34,7 @@ function isActive(element) {
             <li class="mx-4" @click.stop="addElement(element)">
                 <NestedItem :item="element" />
                 <NestedDraggable v-if="(element?.isFolder) && (isActive(element) || element?.isOpen)"
-                    :list="element.children" :children="element.children" />
+                    :list="element.children" :children="element.children" :group="element" />
             </li>
         </template>
     </draggable>
