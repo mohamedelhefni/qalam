@@ -6,7 +6,7 @@ const store = useDocumentsStore()
 
 </script>
 <template>
-    <div class="flex flex-col">
+    <div class="flex flex-col ">
         <NestedDraggable v-if="store.searchName && store.searchDocs.length > 0" :children="store.searchDocs" />
         <NestedDraggable v-else :children="store.docs" />
     </div>

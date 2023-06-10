@@ -11,7 +11,7 @@ import SettingsMenu from './SettingsMenu.vue';
 
 
 <template>
-    <div class="drawer-side h-screen ">
+    <div class="drawer-side h-screen  ">
         <label for="sidebar-drawer" class="drawer-overlay"></label>
         <div class="fixed w-[300px]">
             <div class="w-full flex flex-col justify-between pb-10 h-full min-h-screen  bg-base-200 p-3 py-5">

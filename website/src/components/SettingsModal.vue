@@ -36,6 +36,7 @@ function changeBodyTheme(theme: string) {
 <template>
     <dialog id="settingsModal" class="modal">
         <form method="dialog" class="modal-box ">
+            <button for="deleteModal" class="btn btn-sm btn-circle btn-ghost absolute left-2 top-2">✕</button>
             <h3 class="font-bold text-lg">الاعدادات</h3>
             <p class="py-4"></p>
             <div class="modal-content">

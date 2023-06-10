@@ -29,7 +29,7 @@ function isActive(element) {
 
 
 <template>
-    <draggable class="dragArea" tag="ul" :list="props.children" :group="{ name: 'g1' }" item-key="name">
+    <draggable class="dragArea list-none" tag="ul" :list="props.children" :group="{ name: 'g1' }" item-key="name">
         <template #item="{ element }">
             <li class="mx-4" @click.stop="addElement(element)">
                 <NestedItem :item="element" />

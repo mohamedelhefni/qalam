@@ -2,6 +2,9 @@
 import { Editor, EditorContent } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import Highlight from '@tiptap/extension-highlight'
+import BulletList from '@tiptap/extension-bullet-list'
+import ListItem from '@tiptap/extension-list-item'
+import OrderedList from '@tiptap/extension-ordered-list'
 import Typography from '@tiptap/extension-typography'
 import Image from '@tiptap/extension-image'
 // import Refresh from "/Refresh.svg"
@@ -24,7 +27,9 @@ const editor = new Editor({
                 class: 'uploaded-image',
             },
         }),
-
+        BulletList,
+        OrderedList,
+        ListItem,
     ],
     content: value.value || "",
     onUpdate: ({ editor }) => {
@@ -76,6 +81,9 @@ onBeforeUnmount(() => {
     overflow: scroll;
 }
 
+.ProseMirror ul, .ProseMirror ol {
+    margin-right: 30px
+}
 /* Hide scrollbar for Chrome, Safari and Opera */
 .no-scrollbar::-webkit-scrollbar {
     display: none !important;
