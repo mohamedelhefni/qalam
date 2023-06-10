@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import DocumentEditor from './components/DocumentEditor.vue';
 import DeleteModal from './components/DeleteModal.vue';
+import SettingsModal from './components/SettingsModal.vue';
 import Sidebar from "./components/Sidebar.vue"
 
 
@@ -8,6 +9,7 @@ import Sidebar from "./components/Sidebar.vue"
 
 <template>
     <div dir="rtl">
+        <SettingsModal />
         <DeleteModal />
         <div class="drawer lg:drawer-open">
             <input id="sidebar-drawer" type="checkbox" class="drawer-toggle" />

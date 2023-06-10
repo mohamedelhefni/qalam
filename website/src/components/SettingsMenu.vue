@@ -21,7 +21,8 @@ const documentStore = useDocumentsStore()
             </div>
         </div>
 
-        <div class="flex items-center   justify-between rounded cursor-pointer gap-1  group">
+        <div class="flex items-center   justify-between rounded cursor-pointer gap-1  group"
+            onclick="settingsModal.showModal()">
             <div class="flex items-center w-5/6">
                 <div class="icon">
                     <img class="w-10 p-1 fill-blue-500" :src="Settings">
