@@ -1,46 +1,99 @@
 <script setup lang="ts">
-import { useDocumentsStore } from "../store/documents"
-import { marked } from 'marked'
-import { computed, onUpdated, ref } from "vue";
-const store = useDocumentsStore()
-const output = computed(() => marked(store.activeDoc?.content || ""))
-const input = ref()
+import { Editor, EditorContent } from '@tiptap/vue-3'
+import StarterKit from '@tiptap/starter-kit'
+import Highlight from '@tiptap/extension-highlight'
+import BulletList from '@tiptap/extension-bullet-list'
+import ListItem from '@tiptap/extension-list-item'
+import OrderedList from '@tiptap/extension-ordered-list'
+import Typography from '@tiptap/extension-typography'
+import Image from '@tiptap/extension-image'
+// import Refresh from "/Refresh.svg"
+import MenuIcon from "/Menu.svg"
 
-onUpdated(() => {
-    input.value?.focus()
+
+import { useDocumentsStore } from "../store/documents"
+import { onBeforeUnmount, onUpdated, ref } from "vue";
+const documentStore = useDocumentsStore()
+
+const value = ref(documentStore.activeDoc?.content || "")
+const editor = new Editor({
+    extensions: [
+        StarterKit,
+        Highlight,
+        Typography,
+        Image.configure({
+            inline: true, allowBase64: true,
+            HTMLAttributes: {
+                class: 'uploaded-image',
+            },
+        }),
+        BulletList,
+        OrderedList,
+        ListItem,
+    ],
+    content: value.value || "",
+    onUpdate: ({ editor }) => {
+        documentStore.activeDoc.content = editor.getHTML()
+    },
 })
 
-const update = (e: any) => {
-    store.activeDoc.content = e.target.value
-}
+
+onUpdated(() => {
+    editor.commands.focus()
+    value.value = documentStore.activeDoc?.content
+    editor.commands.setContent(value.value, false)
+})
+
+onBeforeUnmount(() => {
+    editor.destroy()
+})
+
 
 </script>
 
 <template>
-    <div class="grid grid-cols-2">
-        <div class="markdown  border-l py-5 pl-5  pr-10">
-            <h2 class="text-2xl font-bold">
-                {{ store.activeDoc?.name }}
-            </h2>
-            <textarea autofocus name="markdown" ref="input"
-                class="no-scrollbar w-full h-full min-h-screen leading-8 text-lg outline-none "
-                :value="store.activeDoc?.content" @input="update"></textarea>
+    <div class="w-full prose no-scrollbar flex flex-col gap-5 p-5 max-w-6xl mx-auto ">
+        <div class="flex items-center justify-between ">
+            <div class="flex items-center gap-2">
+                <h2 class="text-4xl font-bold p-2 m-0 ">
+                    {{ documentStore.activeDoc?.name }}
+                </h2>
+            </div>
+
+            <label for="sidebar-drawer">
+                <img class="w-10 hover:bg-base-100 rounded p-1 block md:hidden " :src="MenuIcon" />
+            </label>
         </div>
-        <div class="preview py-5 pr-10 prose " v-html="output">
+        <div class="no-scrollbar">
+
+            <editor-content :editor="editor" />
         </div>
     </div>
 </template>
 <style>
+.ProseMirror:focus {
+    outline: none;
+}
+
+.ProseMirror {
+    min-height: 100vh;
+    width: 100%;
+    overflow: scroll;
+}
+
+.ProseMirror ul, .ProseMirror ol {
+    margin-right: 30px
+}
 /* Hide scrollbar for Chrome, Safari and Opera */
 .no-scrollbar::-webkit-scrollbar {
-    display: none;
+    display: none !important;
 }
 
 /* Hide scrollbar for IE, Edge and Firefox */
 .no-scrollbar {
-    -ms-overflow-style: none;
+    -ms-overflow-style: none !important;
     /* IE and Edge */
-    scrollbar-width: none;
+    scrollbar-width: none !important;
     /* Firefox */
 }
 </style>

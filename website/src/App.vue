@@ -1,37 +1,45 @@
 <script setup lang="ts">
-import ActionsMenu from './components/ActionsMenu.vue';
-import Logo from './components/Logo.vue';
-import SearchBar from './components/SearchBar.vue';
-import FilesTree from './components/FilesTree.vue';
 import DocumentEditor from './components/DocumentEditor.vue';
+import DeleteModal from './components/DeleteModal.vue';
+import SettingsModal from './components/SettingsModal.vue';
+import Sidebar from "./components/Sidebar.vue"
 
 
 </script>
 
 <template>
-    <div dir="rtl" class="flex ">
-        <div class="w-2/12"></div>
-        <div class="w-2/12 fixed  bg-gray-100 p-3 py-5 ">
-            <div class="w-full  flex flex-col justify-between pb-10 h-full min-h-screen">
-                <div class="flex flex-col gap-2">
-                    <Logo />
-                    <SearchBar />
-                    <ActionsMenu />
-                    <FilesTree />
-                </div>
+    <div dir="rtl">
+
+        <SettingsModal />
+
+        <DeleteModal />
+
+
+        <div class="drawer lg:drawer-open">
+            <input id="sidebar-drawer" type="checkbox" class="drawer-toggle" />
+            <div class="drawer-content flex flex-col items-center justify-center">
+                <DocumentEditor />
             </div>
-        </div>
-        <div class="flex-1  w-10/12">
-            <DocumentEditor />
+            <Sidebar />
         </div>
     </div>
 </template>
 
 <style>
-
-
-.prose li  img {
+.prose li img {
     @apply m-0 inline-block !important
+}
+
+#app {
+    -ms-overflow-style: none;
+    /* Internet Explorer 10+ */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+#app::-webkit-scrollbar {
+    display: none;
+    /* Safari and Chrome */
 }
 </style>
 

@@ -3,6 +3,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  ul, ol {
+    list-style: revert;
+  }
+}
+
 html,
 body {
   font-family: "IBM Plex Sans Arabic", sans-serif;
