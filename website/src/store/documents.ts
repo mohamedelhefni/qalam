@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { computed, ref, watch } from "vue";
+import {  ref, watch } from "vue";
 
 export const useDocumentsStore = defineStore("documents", () => {
   let docs = ref([
