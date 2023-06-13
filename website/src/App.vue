@@ -3,18 +3,16 @@ import DocumentEditor from './components/DocumentEditor.vue';
 import DeleteModal from './components/DeleteModal.vue';
 import SettingsModal from './components/SettingsModal.vue';
 import Sidebar from "./components/Sidebar.vue"
+import { useUIStore } from "./store/ui"
+const uiStore = useUIStore()
 
 
 </script>
 
 <template>
-    <div dir="rtl">
-
+    <div dir="rtl" :data-theme="uiStore.theme">
         <SettingsModal />
-
         <DeleteModal />
-
-
         <div class="drawer lg:drawer-open">
             <input id="sidebar-drawer" type="checkbox" class="drawer-toggle" />
             <div class="lg:w-[300px]"></div>
