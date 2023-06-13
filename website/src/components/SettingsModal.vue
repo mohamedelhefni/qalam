@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import { useUIStore } from "../store/ui"
 const uiStore = useUIStore()
 

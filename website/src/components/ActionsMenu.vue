@@ -1,9 +1,6 @@
 <script setup lang="ts">
-import FileAddIcon from "/Fileadd.svg"
-import FolderAddIcon from "/Folderadd.svg"
-import SortIcon from "/Sort.svg"
 import { useDocumentsStore } from "../store/documents"
-
+import { PhFilePlus, PhFolderPlus, PhSortAscending } from "@phosphor-icons/vue"
 let store = useDocumentsStore()
 
 
@@ -12,15 +9,15 @@ let store = useDocumentsStore()
     <div class="flex items-center gap-2 my-2">
         <button @click="store.addDocument({ id: Date.now(), name: ' عنصر جديد', isFolder: false, children: [] })"
             class="hover:bg-base-100 p-1 rounded">
-            <img class="w-8" :src="FileAddIcon" alt="">
+            <PhFilePlus :size="29" class="text-base-800" weight="fill" />
         </button>
         <button
             @click="store.addDocument({ id: Date.now(), name: ' مجلد جديد', isFolder: true, isOpen: false, children: [] })"
             class="hover:bg-base-100 p-1 rounded">
-            <img class="w-8" :src="FolderAddIcon" alt="">
+            <PhFolderPlus :size="29" class="text-base-800" weight="fill" />
         </button>
         <button class="hover:bg-base-100 p-1 rounded">
-            <img class="w-8" :src="SortIcon" alt="">
+            <PhSortAscending :size="29" class="text-base-800" weight="fill" />
         </button>
     </div>
 </template>
