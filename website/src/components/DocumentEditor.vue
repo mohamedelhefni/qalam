@@ -7,8 +7,7 @@ import ListItem from '@tiptap/extension-list-item'
 import OrderedList from '@tiptap/extension-ordered-list'
 import Typography from '@tiptap/extension-typography'
 import Image from '@tiptap/extension-image'
-// import Refresh from "/Refresh.svg"
-import MenuIcon from "/Menu.svg"
+import { PhList } from "@phosphor-icons/vue"
 
 
 import { useDocumentsStore } from "../store/documents"
@@ -61,7 +60,7 @@ onBeforeUnmount(() => {
             </div>
 
             <label for="sidebar-drawer">
-                <img class="w-10 hover:bg-base-100 rounded p-1 block md:hidden " :src="MenuIcon" />
+                <PhList :size="28" class="w-10 hover:bg-base-100 rounded p-1 block md:hidden " />
             </label>
         </div>
         <div class="no-scrollbar">
@@ -81,9 +80,11 @@ onBeforeUnmount(() => {
     overflow: scroll;
 }
 
-.ProseMirror ul, .ProseMirror ol {
+.ProseMirror ul,
+.ProseMirror ol {
     margin-right: 30px
 }
+
 /* Hide scrollbar for Chrome, Safari and Opera */
 .no-scrollbar::-webkit-scrollbar {
     display: none !important;

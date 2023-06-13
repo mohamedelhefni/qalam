@@ -1,11 +1,10 @@
 <script setup lang="ts">
-
-import Trash from "/Trash.svg"
-import Refresh from "/Refresh.svg"
 import { useDocumentsStore } from "../store/documents"
+import { PhTrash, PhClockClockwise } from "@phosphor-icons/vue"
 const documentStore = useDocumentsStore()
 
 </script>
+
 <template>
     <dialog id="deleteModal" class="modal">
         <form method="dialog" class="modal-box">
@@ -17,9 +16,13 @@ const documentStore = useDocumentsStore()
                     <li v-for="doc in documentStore.deletedDocs" :key="doc.id">
                         <div class="flex items-center justify-between">
                             <span>{{ doc.name }}</span>
-                            <div class="flex gap-2">
-                                <span @click="documentStore.rmDocument(doc)"><img :src="Trash" class="w-5" /></span>
-                                <span @click="documentStore.restoreDeleted(doc)"><img :src="Refresh" class="w-5" /></span>
+                            <div class="flex items-center gap-2">
+                                <span @click="documentStore.rmDocument(doc)">
+                                    <PhTrash :size="24" class="text-red-500" />
+                                </span>
+                                <span @click="documentStore.restoreDeleted(doc)">
+                                    <PhClockClockwise :size="24" class="text-base-800"/>
+                                </span>
                             </div>
                         </div>
                     </li>

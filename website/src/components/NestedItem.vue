@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import FolderIcon from "/Folder.svg"
-import FileIcon from "/File.svg"
-import TrashRedIcon from "/TrashRed.svg"
-import FolderOpenIcon from "/FolderOpen.svg"
+import { PhFolder, PhFileText, PhFolderOpen, PhTrash } from "@phosphor-icons/vue"
+
 import { useDocumentsStore } from "../store/documents"
 import { ref } from "vue"
 
@@ -33,9 +31,11 @@ function doneEdit(item: any) {
         @click="item?.children.length === 0 && !item?.isFolder && store.setActiveDoc(item)" @dblclick="isEdit = true">
         <div class="flex items-center w-5/6">
             <div class="icon">
-                <img class="w-10 p-1" v-if="item?.isFolder && !item?.isActive" :src="FolderIcon" alt="">
-                <img class="w-10 p-1" v-else-if="(item?.isFolder && item?.isOpen)" :src="FolderOpenIcon" alt="">
-                <img class="w-10 p-1" v-else :src="FileIcon" alt="">
+                <PhFolder :size="32" v-if="item?.isFolder && !item?.isActive" class="text-base-800 p-1" weight="fill" />
+                <PhFolderOpen :size="32" v-else-if="(item?.isFolder && item?.isOpen)" class="text-base-800 p-1"
+                    weight="fill" />
+
+                <PhFileText :size="32" v-else class="text-base-800  p-1" />
             </div>
             <input v-if="isEdit" class="w-full bg-transparent" @blur="doneEdit(item)" @keyup.enter="doneEdit(item)"
                 v-model="editText" type="text">
@@ -44,7 +44,7 @@ function doneEdit(item: any) {
             </p>
         </div>
         <div class=" hidden group-hover:block w-1/6 ">
-            <img @click.stop="deleteDoc(item)" class="w-8 p-1 " :src="TrashRedIcon" />
+            <PhTrash @click.stop="deleteDoc(item)" :size="28" class="text-red-500 p-1" />
         </div>
     </div>
 </template>

@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { useUIStore } from "../store/ui"
+const uiStore = useUIStore()
+
 const themes = ["light",
     "dark",
     "cupcake",
@@ -31,7 +34,9 @@ const themes = ["light",
 
 function changeBodyTheme(theme: string) {
     document.body.setAttribute('data-theme', theme)
+    uiStore.setTheme(theme)
 }
+
 </script>
 <template>
     <dialog id="settingsModal" class="modal">
