@@ -9,12 +9,13 @@ import StarterKit from '@tiptap/starter-kit'
 import TaskItem from '@tiptap/extension-task-item'
 import TaskList from '@tiptap/extension-task-list'
 import Typography from '@tiptap/extension-typography'
-import { PhList } from "@phosphor-icons/vue"
+import EditorMenu from "./EditorMenu.vue"
 import { beautifyDate } from "../utils/date"
 
 
 import { useDocumentsStore } from "../store/documents"
 import { onBeforeUnmount, onUpdated, ref } from "vue";
+import { PhList } from '@phosphor-icons/vue'
 const documentStore = useDocumentsStore()
 
 const value = ref(documentStore.activeDoc?.content || "")
@@ -66,13 +67,12 @@ onBeforeUnmount(() => {
                 </h2>
                 <p class="text-sm text-muted">{{ beautifyDate(documentStore.activeDoc?.createdAt) }}</p>
             </div>
-
             <label for="sidebar-drawer">
                 <PhList :size="28" class="w-10 hover:bg-base-100 rounded p-1 block md:hidden " />
             </label>
         </div>
         <div class="no-scrollbar">
-
+            <EditorMenu :editor="editor" />
             <editor-content :editor="editor" />
         </div>
     </div>
