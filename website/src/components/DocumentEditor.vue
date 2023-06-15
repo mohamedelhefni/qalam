@@ -9,6 +9,7 @@ import StarterKit from '@tiptap/starter-kit'
 import TaskItem from '@tiptap/extension-task-item'
 import TaskList from '@tiptap/extension-task-list'
 import Typography from '@tiptap/extension-typography'
+import TextAlign from '@tiptap/extension-text-align'
 import EditorMenu from "./EditorMenu.vue"
 import { beautifyDate } from "../utils/date"
 
@@ -23,6 +24,9 @@ const editor = new Editor({
     extensions: [
         StarterKit,
         Highlight,
+        TextAlign.configure({
+            types: ['heading', 'paragraph'],
+        }),
         Typography,
         Image.configure({
             inline: true, allowBase64: true,
