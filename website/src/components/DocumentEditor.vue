@@ -21,11 +21,11 @@ import { PhCopy, PhList } from '@phosphor-icons/vue'
 const documentStore = useDocumentsStore()
 
 const turndownService = new TurndownService()
-
-
 const value = ref(documentStore.activeDoc?.content || "")
+
 const editor = new Editor({
     extensions: [
+
         StarterKit,
         Highlight,
         TextAlign.configure({
@@ -48,6 +48,7 @@ const editor = new Editor({
     ],
     content: value.value || "",
     onUpdate: ({ editor }) => {
+
         documentStore.activeDoc.content = editor.getHTML()
     },
 })
@@ -65,7 +66,6 @@ onBeforeUnmount(() => {
 
 function copyContent() {
     var markdown = turndownService.turndown(editor.getHTML())
-
     navigator.clipboard.writeText(markdown)
 }
 
@@ -89,7 +89,7 @@ function copyContent() {
                 <PhCopy :size="30" class=" hover:bg-base-200 rounded p-1 " />
             </button>
         </div>
-        <div class="no-scrollbar">
+        <div class="no-scrollbar flex flex-col justify-between">
             <EditorMenu :editor="editor" />
             <editor-content :editor="editor" />
         </div>
@@ -124,6 +124,9 @@ ul[data-type="taskList"] {
     }
 }
 
+code {
+    @apply bg-base-200 
+}
 
 .ProseMirror:focus {
     outline: none;
@@ -141,12 +144,12 @@ ul[data-type="taskList"] {
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
-.no-scrollbar::-webkit-scrollbar {
+*::-webkit-scrollbar {
     display: none !important;
 }
 
 /* Hide scrollbar for IE, Edge and Firefox */
-.no-scrollbar {
+* {
     -ms-overflow-style: none !important;
     /* IE and Edge */
     scrollbar-width: none !important;

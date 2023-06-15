@@ -17,8 +17,5 @@ let store = useDocumentsStore()
             class="hover:bg-base-100 p-1 rounded">
             <PhFolderPlus :size="29" class="text-base-800" weight="fill" />
         </button>
-        <button class="hover:bg-base-100 p-1 rounded">
-            <PhSortAscending :size="29" class="text-base-800" weight="fill" />
-        </button>
     </div>
 </template>

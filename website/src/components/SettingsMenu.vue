@@ -7,9 +7,9 @@ const documentStore = useDocumentsStore()
 
 <template>
     <div class="flex flex-col gap-3">
-        <div class="flex items-center   justify-between rounded cursor-pointer gap-1  group"
+        <button class="flex items-center justify-between rounded cursor-pointer gap-1  group"
             onclick="deleteModal.showModal()">
-            <div class="flex items-center w-5/6">
+            <div class="flex items-center">
                 <div class="icon">
                     <PhTrash :size="30" class="text-base-500 p-1 mx-1" />
                 </div>
@@ -18,11 +18,11 @@ const documentStore = useDocumentsStore()
                     <span class="text-muted text-sm px-2">{{ documentStore.deletedDocs.length }}</span>
                 </p>
             </div>
-        </div>
+        </button>
 
-        <div class="flex items-center   justify-between rounded cursor-pointer gap-1  group"
+        <button class="flex items-center justify-between rounded cursor-pointer gap-1  group"
             onclick="settingsModal.showModal()">
-            <div class="flex items-center w-5/6">
+            <div class="flex items-center">
                 <div class="icon">
                     <PhGear :size="30" class="text-base-500 p-1 mx-1" />
                 </div>
@@ -30,6 +30,6 @@ const documentStore = useDocumentsStore()
                     <span class="">الاعدادات</span>
                 </p>
             </div>
-        </div>
+        </button>
     </div>
 </template>
