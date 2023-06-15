@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import TurndownService from "turndown"
 import { Editor, EditorContent } from '@tiptap/vue-3'
 import BulletList from '@tiptap/extension-bullet-list'
 import Highlight from '@tiptap/extension-highlight'
@@ -16,8 +17,11 @@ import { beautifyDate } from "../utils/date"
 
 import { useDocumentsStore } from "../store/documents"
 import { onBeforeUnmount, onUpdated, ref } from "vue";
-import { PhList } from '@phosphor-icons/vue'
+import { PhCopy, PhList } from '@phosphor-icons/vue'
 const documentStore = useDocumentsStore()
+
+const turndownService = new TurndownService()
+
 
 const value = ref(documentStore.activeDoc?.content || "")
 const editor = new Editor({
@@ -59,6 +63,12 @@ onBeforeUnmount(() => {
     editor.destroy()
 })
 
+function copyContent() {
+    var markdown = turndownService.turndown(editor.getHTML())
+
+    navigator.clipboard.writeText(markdown)
+}
+
 
 </script>
 
@@ -71,9 +81,13 @@ onBeforeUnmount(() => {
                 </h2>
                 <p class="text-sm text-muted">{{ beautifyDate(documentStore.activeDoc?.createdAt) }}</p>
             </div>
+
             <label for="sidebar-drawer">
                 <PhList :size="28" class="w-10 hover:bg-base-100 rounded p-1 block md:hidden " />
             </label>
+            <button @click="copyContent">
+                <PhCopy :size="30" class=" hover:bg-base-200 rounded p-1 " />
+            </button>
         </div>
         <div class="no-scrollbar">
             <EditorMenu :editor="editor" />
