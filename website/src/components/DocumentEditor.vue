@@ -1,17 +1,22 @@
 <script setup lang="ts">
 import { Editor, EditorContent } from '@tiptap/vue-3'
-import StarterKit from '@tiptap/starter-kit'
-import Highlight from '@tiptap/extension-highlight'
 import BulletList from '@tiptap/extension-bullet-list'
+import Highlight from '@tiptap/extension-highlight'
+import Image from '@tiptap/extension-image'
 import ListItem from '@tiptap/extension-list-item'
 import OrderedList from '@tiptap/extension-ordered-list'
+import StarterKit from '@tiptap/starter-kit'
+import TaskItem from '@tiptap/extension-task-item'
+import TaskList from '@tiptap/extension-task-list'
 import Typography from '@tiptap/extension-typography'
-import Image from '@tiptap/extension-image'
-import { PhList } from "@phosphor-icons/vue"
+import TextAlign from '@tiptap/extension-text-align'
+import EditorMenu from "./EditorMenu.vue"
+import { beautifyDate } from "../utils/date"
 
 
 import { useDocumentsStore } from "../store/documents"
 import { onBeforeUnmount, onUpdated, ref } from "vue";
+import { PhList } from '@phosphor-icons/vue'
 const documentStore = useDocumentsStore()
 
 const value = ref(documentStore.activeDoc?.content || "")
@@ -19,6 +24,9 @@ const editor = new Editor({
     extensions: [
         StarterKit,
         Highlight,
+        TextAlign.configure({
+            types: ['heading', 'paragraph'],
+        }),
         Typography,
         Image.configure({
             inline: true, allowBase64: true,
@@ -29,6 +37,10 @@ const editor = new Editor({
         BulletList,
         OrderedList,
         ListItem,
+        TaskList,
+        TaskItem.configure({
+            nested: true,
+        }),
     ],
     content: value.value || "",
     onUpdate: ({ editor }) => {
@@ -53,23 +65,52 @@ onBeforeUnmount(() => {
 <template>
     <div class="w-full prose no-scrollbar flex flex-col gap-5 p-5 max-w-6xl mx-auto ">
         <div class="flex items-center justify-between ">
-            <div class="flex items-center gap-2">
-                <h2 class="text-4xl font-bold p-2 m-0 ">
+            <div class="flex flex-col gap-2">
+                <h2 class="text-4xl font-bold pl-2 m-0">
                     {{ documentStore.activeDoc?.name }}
                 </h2>
+                <p class="text-sm text-muted">{{ beautifyDate(documentStore.activeDoc?.createdAt) }}</p>
             </div>
-
             <label for="sidebar-drawer">
                 <PhList :size="28" class="w-10 hover:bg-base-100 rounded p-1 block md:hidden " />
             </label>
         </div>
         <div class="no-scrollbar">
-
+            <EditorMenu :editor="editor" />
             <editor-content :editor="editor" />
         </div>
     </div>
 </template>
-<style>
+
+<style lang="scss">
+ul[data-type="taskList"] {
+    list-style: none;
+    padding: 0;
+
+    p {
+        margin: 0;
+    }
+
+    li {
+        display: flex;
+
+        >label {
+            flex: 0 0 auto;
+            margin-right: 0.5rem;
+            user-select: none;
+        }
+
+        >div {
+            flex: 1 1 auto;
+
+            p {
+                margin-right: 8px;
+            }
+        }
+    }
+}
+
+
 .ProseMirror:focus {
     outline: none;
 }
