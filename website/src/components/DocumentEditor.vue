@@ -74,7 +74,7 @@ function copyContent() {
 
 <template>
     <div class="w-full prose no-scrollbar flex flex-col gap-5 p-5 max-w-6xl mx-auto ">
-        <div class="flex items-center justify-between ">
+        <div class="flex items-start justify-between ">
             <div class="flex flex-col gap-2">
                 <h2 class="text-4xl font-bold pl-2 m-0">
                     {{ documentStore.activeDoc?.name }}

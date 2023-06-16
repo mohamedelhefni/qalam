@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import DocumentEditor from './components/DocumentEditor.vue';
 import DeleteModal from './components/DeleteModal.vue';
+import ImportExportModal from './components/ImportExportModal.vue';
 import SettingsModal from './components/SettingsModal.vue';
 import Sidebar from "./components/Sidebar.vue"
 import { useUIStore } from "./store/ui"
@@ -11,6 +12,7 @@ const uiStore = useUIStore()
 
 <template>
     <div dir="rtl" :data-theme="uiStore.theme">
+        <ImportExportModal />
         <SettingsModal />
         <DeleteModal />
         <div class="drawer lg:drawer-open">
