@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useDocumentsStore } from "../store/documents"
-import { PhFilePlus, PhFolderPlus, PhSortAscending } from "@phosphor-icons/vue"
+import { PhFilePlus, PhFolderPlus } from "@phosphor-icons/vue"
 let store = useDocumentsStore()
 
 
