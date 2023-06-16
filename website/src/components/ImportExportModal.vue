@@ -1,12 +1,18 @@
 <script setup lang="ts">
+import { ref } from "vue"
 import { useDocumentsStore } from "../store/documents"
 import { guidGenerator } from "../utils/rand"
 import { PhExport } from "@phosphor-icons/vue"
 import { marked } from "marked"
+import JSZip from "jszip"
+import TurndownService from "turndown"
+import { saveAs } from "file-saver"
+
 const documentStore = useDocumentsStore()
+const closeButton = ref()
+const turndownService = new TurndownService()
 
 function getNodeName(node: string) {
-    console.log("node name", node)
     let name: any = node
     if (name.endsWith(".md")) {
         let nodeArr = node?.split("/")
@@ -55,7 +61,7 @@ function buildTree(adj: Map<any, any>, content: Map<any, any>) {
     adj.forEach((_value: any, key: any) => {
         ans.push(dfs(key, adj, content))
     })
-    return ans[0] // first node
+    return ans[0]
 }
 
 async function getContent(filesArray: any[]) {
@@ -78,6 +84,40 @@ async function importFiles(e: any) {
     let treeAdj = await bulidTreeAdj(filesArray)
     let treeParentNode = buildTree(treeAdj, content)
     documentStore.addDocument(treeParentNode)
+    closeButton.value.click()
+}
+
+async function exportFiles() {
+    exportZip()
+    closeButton.value.click()
+}
+
+
+function processData(data: any[], zip: any) {
+    data.forEach(item => {
+        if (item.isFolder) {
+            const folder = zip.folder(item.name);
+            if (item.children.length > 0) {
+                processData(item.children, folder);
+            }
+        } else {
+            zip.file(`${item.name}.md`, turndownService.turndown(item.content || ""));
+        }
+    });
+}
+
+function exportZip() {
+    const zip = new JSZip();
+    let data = documentStore.docs
+    // Process the data
+    processData(data, zip);
+
+    // Generate the zip file
+    zip.generateAsync({ type: "blob" })
+        .then(function (content) {
+            saveAs(content, "الملفات.zip");
+        });
+
 }
 
 
@@ -93,7 +133,7 @@ async function importFiles(e: any) {
                 <div class="flex flex-col w-full border-opacity-50">
                     <div class="flex flex-col gap-3">
                         <h3 class="text-xl font-bold"> استخراج </h3>
-                        <button class="btn btn-primary flex items-center">
+                        <button @click="exportFiles" class="btn btn-primary flex items-center">
                             <PhExport :size="26" class="text-base-content" /><span class="mt-1"> استخراج جميع الملفات</span>
                         </button>
                     </div>
@@ -107,7 +147,7 @@ async function importFiles(e: any) {
 
             </div>
             <div class="modal-action">
-                <button class="btn btn-primary">اغلاق</button>
+                <button ref="closeButton" class="btn btn-primary">اغلاق</button>
             </div>
         </form>
     </dialog>
