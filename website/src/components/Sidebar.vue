@@ -11,10 +11,10 @@ import SettingsMenu from './SettingsMenu.vue';
 
 
 <template>
-    <div class="drawer-side h-screen  ">
+    <div class="drawer-side  h-full min-h-screen  ">
         <label for="sidebar-drawer" class="drawer-overlay"></label>
-        <div class="fixed w-[300px]">
-            <div class="w-full flex flex-col justify-between pb-10 h-full min-h-screen  bg-base-200 p-3 py-5">
+        <div class="fixed w-[300px] h-full overflow-scroll min-h-screen bg-base-200">
+            <div class="w-full flex flex-col items-start justify-between min-h-screen pb-10  p-3 py-5 gap-5">
                 <div class="flex flex-col gap-2 bg-base-200 w-full ">
                     <Logo />
                     <SearchBar />

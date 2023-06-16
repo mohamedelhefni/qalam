@@ -125,7 +125,7 @@ ul[data-type="taskList"] {
 }
 
 code {
-    @apply bg-base-200 
+    @apply bg-base-200
 }
 
 .ProseMirror:focus {
