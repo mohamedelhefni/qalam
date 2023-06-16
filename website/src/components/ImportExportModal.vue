@@ -5,6 +5,16 @@ import { PhExport } from "@phosphor-icons/vue"
 import { marked } from "marked"
 const documentStore = useDocumentsStore()
 
+function getNodeName(node: string) {
+    console.log("node name", node)
+    let name: any = node
+    if (name.endsWith(".md")) {
+        let nodeArr = node?.split("/")
+        name = nodeArr.pop()?.slice(0, -3)
+    }
+    return name
+}
+
 async function bulidTreeAdj(files: any[]) {
     let treeAdj: Map<any, any> = new Map()
     files.forEach(async (file: any) => {
@@ -25,17 +35,6 @@ async function bulidTreeAdj(files: any[]) {
         }
     })
     return treeAdj
-}
-
-
-function getNodeName(node: string) {
-    console.log("node name", node)
-    let name: any = node
-    if (name.endsWith(".md")) {
-        let nodeArr = node?.split("/")
-        name = nodeArr.pop()?.slice(0, -3)
-    }
-    return name
 }
 
 function dfs(node: any, adj: Map<any, any>, content: any) {
