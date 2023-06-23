@@ -14,7 +14,7 @@ const documentStore = useDocumentsStore()
                     <PhExport :size="30" class="text-base-500 p-1 mx-1" />
                 </div>
                 <p class="title flex-1 truncate">
-                    <span class=""> استخراج / استيراد</span>
+                    <span class=""> تصدير / استيراد</span>
                 </p>
             </div>
         </button>

@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { useUIStore } from "../store/ui"
+import { ref } from "vue"
+
 const uiStore = useUIStore()
 
 const themes = ["light",
@@ -32,9 +34,12 @@ const themes = ["light",
     "coffee",
     "winter",]
 
+let closeButton = ref()
+
 function changeBodyTheme(theme: string) {
     document.body.setAttribute('data-theme', theme)
     uiStore.setTheme(theme)
+    closeButton.value.click()
 }
 
 </script>
@@ -65,7 +70,7 @@ function changeBodyTheme(theme: string) {
                 </div>
             </div>
             <div class="modal-action">
-                <button class="btn btn-primary">اغلاق</button>
+                <button ref="closeButton" class="btn btn-primary">اغلاق</button>
             </div>
         </form>
     </dialog>
