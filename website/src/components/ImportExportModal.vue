@@ -24,7 +24,8 @@ function getNodeName(node: string) {
 async function bulidTreeAdj(files: any[]) {
     let treeAdj: Map<any, any> = new Map()
     files.forEach(async (file: any) => {
-        if (file.type != "text/markdown") {
+        let fileExt = file.name.split('.').pop()
+        if (fileExt != "md") {
             return
         }
         let fullName = file.webkitRelativePath
@@ -67,7 +68,8 @@ function buildTree(adj: Map<any, any>, content: Map<any, any>) {
 async function getContent(filesArray: any[]) {
     let content = new Map()
     for (let file of filesArray) {
-        if (file.type != "text/markdown") {
+        let fileExt = file.name.split('.').pop()
+        if (fileExt != "md") {
             continue
         }
         let fullName = file.webkitRelativePath
