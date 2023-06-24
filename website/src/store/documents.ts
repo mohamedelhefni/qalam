@@ -63,6 +63,9 @@ export const useDocumentsStore = defineStore("documents", () => {
   function getDeletedDocs(documents: any = docs, deletedDocs: any = []) {
     let documentsArray = documents.value || documents;
     for (let doc of documentsArray) {
+      if(!doc) {
+        continue
+      }
       if (doc.isDeleted) {
         deletedDocs.push(doc)
       }
@@ -122,6 +125,8 @@ export const useDocumentsStore = defineStore("documents", () => {
   );
 
   function addDocument(doc: any) {
+    if(!doc)
+      return
     docs.value.push(doc);
   }
 

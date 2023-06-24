@@ -30,10 +30,10 @@ function isActive(element) {
 
 <template>
     <draggable class="dragArea list-none" tag="ul" :list="props.children" :group="{ name: 'g1' }" item-key="name"   :scroll-sensitivity="250" >
-        <template #item="{ element }">
-            <li class="mx-4" @click.stop="addElement(element)">
-                <NestedItem :item="element" />
-                <NestedDraggable v-if="(element?.isFolder) && (isActive(element) || element?.isOpen)"
+        <template #item="{ element }" >
+            <li class="mx-4"  @click.stop="addElement(element)">
+                <NestedItem v-if="element" :item="element" />
+                <NestedDraggable v-if="element && (element?.isFolder) && (isActive(element) || element?.isOpen)"
                     :list="element.children" :children="element.children" :group="element" />
             </li>
         </template>
