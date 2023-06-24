@@ -122,6 +122,9 @@ function exportZip() {
 
 }
 
+function isWindows() {
+    return navigator.appVersion.indexOf('Win') != -1
+} 
 
 </script>
 
@@ -140,7 +143,7 @@ function exportZip() {
                         </button>
                     </div>
                     <div class="divider"></div>
-                    <div class="flex flex-col gap-3">
+                    <div class="flex flex-col gap-3" v-if="!isWindows()">
                         <h3 class="text-xl font-bold">استيراد</h3>
                         <input @change="importFiles" class="file-input w-full max-w-xs" type="file" id="picker"
                             name="fileList" webkitdirectory multiple />
