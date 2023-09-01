@@ -16,143 +16,150 @@ import { beautifyDate } from "../utils/date"
 
 
 import { useDocumentsStore } from "../store/documents"
-import { onBeforeUnmount, onUpdated, ref } from "vue";
-import { PhCopy, PhList } from '@phosphor-icons/vue'
+import {  onBeforeUnmount, onUpdated, ref } from "vue";
+import { PhArrowsLeftRight, PhCopy, PhList } from '@phosphor-icons/vue'
 const documentStore = useDocumentsStore()
 
 const turndownService = new TurndownService()
 const value = ref(documentStore.activeDoc?.content || "")
 
 const editor = new Editor({
-    extensions: [
+  extensions: [
 
-        StarterKit,
-        Highlight,
-        TextAlign.configure({
-            types: ['heading', 'paragraph'],
-        }),
-        Typography,
-        Image.configure({
-            inline: true, allowBase64: true,
-            HTMLAttributes: {
-                class: 'uploaded-image',
-            },
-        }),
-        BulletList,
-        OrderedList,
-        ListItem,
-        TaskList,
-        TaskItem.configure({
-            nested: true,
-        }),
-    ],
-    content: value.value || "",
-    onUpdate: ({ editor }) => {
+    StarterKit,
+    Highlight,
+    TextAlign.configure({
+      types: ['heading', 'paragraph'],
+    }),
+    Typography,
+    Image.configure({
+      inline: true, allowBase64: true,
+      HTMLAttributes: {
+        class: 'uploaded-image',
+      },
+    }),
+    BulletList,
+    OrderedList,
+    ListItem,
+    TaskList,
+    TaskItem.configure({
+      nested: true,
+    }),
+  ],
+  content: value.value || "",
+  onUpdate: ({ editor }) => {
 
-        documentStore.activeDoc.content = editor.getHTML()
-    },
+    documentStore.activeDoc.content = editor.getHTML()
+  },
 })
 
 
 onUpdated(() => {
-    editor.commands.focus()
-    value.value = documentStore.activeDoc?.content
-    editor.commands.setContent(value.value, false)
+  editor.commands.focus()
+  value.value = documentStore.activeDoc?.content
+  editor.commands.setContent(value.value, false)
 })
 
 onBeforeUnmount(() => {
-    editor.destroy()
+  editor.destroy()
 })
 
 function copyContent() {
-    var markdown = turndownService.turndown(editor.getHTML())
-    navigator.clipboard.writeText(markdown)
+  var markdown = turndownService.turndown(editor.getHTML())
+  navigator.clipboard.writeText(markdown)
 }
 
 
 </script>
 
 <template>
-    <div class="w-full prose no-scrollbar flex flex-col gap-5 p-5 max-w-6xl mx-auto ">
-        <div class="flex items-start justify-between ">
-            <div class="flex flex-col gap-2">
-                <h2 class="text-4xl font-bold pl-2 m-0">
-                    {{ documentStore.activeDoc?.name }}
-                </h2>
-                <p class="text-sm text-muted">{{ beautifyDate(documentStore.activeDoc?.createdAt) }}</p>
-            </div>
 
-            <label for="sidebar-drawer">
-                <PhList :size="28" class="w-10 hover:bg-base-100 rounded p-1 block md:hidden " />
-            </label>
-            <button @click="copyContent">
-                <PhCopy :size="30" class=" hover:bg-base-200 rounded p-1 " />
-            </button>
-        </div>
-        <div class="no-scrollbar flex flex-col justify-between">
-            <EditorMenu :editor="editor" />
-            <editor-content :editor="editor" />
-        </div>
+  <div class="w-full prose no-scrollbar flex flex-col gap-5 p-5 max-w-6xl mx-auto " :dir="documentStore.activeDoc?.direction || 'rtl'">
+    <div class="flex items-start justify-between ">
+      <div class="flex flex-col gap-2">
+        <h2 class="text-4xl font-bold pl-2 m-0">
+          {{ documentStore.activeDoc?.name }}
+        </h2>
+        <p class="text-sm text-muted">{{ beautifyDate(documentStore.activeDoc?.createdAt) }}</p>
+      </div>
+
+      <label for="sidebar-drawer">
+        <PhList :size="28" class="w-10 hover:bg-base-100 rounded p-1 block md:hidden " />
+      </label>
+      <div class="flex">
+        <button @click="documentStore.toggleActiveDocDirection">
+          <PhArrowsLeftRight :size="30" class=" hover:bg-base-200 rounded p-1 " />
+        </button>
+        <button @click="copyContent">
+          <PhCopy :size="30" class=" hover:bg-base-200 rounded p-1 " />
+        </button>
+      </div>
+
     </div>
+    <div class="no-scrollbar flex flex-col justify-between">
+      <EditorMenu :editor="editor" />
+      <editor-content :editor="editor" />
+    </div>
+  </div>
 </template>
 
 <style lang="scss">
 ul[data-type="taskList"] {
-    list-style: none;
-    padding: 0;
+  list-style: none;
+  padding: 0;
 
-    p {
-        margin: 0;
+  p {
+    margin: 0;
+  }
+
+  li {
+    display: flex;
+
+    >label {
+      flex: 0 0 auto;
+      margin-right: 0.5rem;
+      user-select: none;
     }
 
-    li {
-        display: flex;
+    >div {
+      flex: 1 1 auto;
 
-        >label {
-            flex: 0 0 auto;
-            margin-right: 0.5rem;
-            user-select: none;
-        }
-
-        >div {
-            flex: 1 1 auto;
-
-            p {
-                margin-right: 8px;
-            }
-        }
+      p {
+        margin-right: 8px;
+      }
     }
+  }
 }
 
 code {
-    @apply bg-base-200
+  @apply bg-base-200
 }
 
 .ProseMirror:focus {
-    outline: none;
+  outline: none;
 }
 
 .ProseMirror {
-    min-height: 100vh;
-    width: 100%;
-    overflow: scroll;
+  min-height: 100vh;
+  width: 100%;
+  overflow: scroll;
 }
 
 .ProseMirror ul,
 .ProseMirror ol {
-    margin-right: 30px
+  margin-right: 30px
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
 *::-webkit-scrollbar {
-    display: none !important;
+  display: none !important;
 }
 
 /* Hide scrollbar for IE, Edge and Firefox */
 * {
-    -ms-overflow-style: none !important;
-    /* IE and Edge */
-    scrollbar-width: none !important;
-    /* Firefox */
+  -ms-overflow-style: none !important;
+  /* IE and Edge */
+  scrollbar-width: none !important;
+  /* Firefox */
 }
 </style>

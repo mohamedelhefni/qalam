@@ -8,6 +8,7 @@ export const useDocumentsStore = defineStore("documents", () => {
       name: "الرئيسية",
       isFolder: false,
       isOpen: false,
+      direction: 'rtl',
       children: [],
       content: `<h1 id="-">مرحبا بك في قلم 👋</h1>
 <p>قلم هو موقع لتسجيل الملاحظات بشكل منظم بواجهة مستخدم بسيطه مخصص للغة العربية</p>
@@ -34,6 +35,7 @@ export const useDocumentsStore = defineStore("documents", () => {
         {
           id: 3,
           name: "ملف",
+          direction: 'rtl',
           children: [],
           content: "",
         },
@@ -45,6 +47,17 @@ export const useDocumentsStore = defineStore("documents", () => {
   let activeDoc = ref();
   let deletedDocs = ref<any[]>([])
   let itemResult = ref({});
+
+  function toggleActiveDocDirection() {
+    if (!activeDoc.value.direction) {
+      activeDoc.value.direction = 'rtl'
+    }
+    if (activeDoc.value.direction == 'rtl') {
+      activeDoc.value.direction = 'ltr'
+    } else {
+      activeDoc.value.direction = 'rtl'
+    }
+  }
 
   function getItem(document: any, documents: any = docs) {
     let documentsArray = documents.value || documents;
@@ -63,7 +76,7 @@ export const useDocumentsStore = defineStore("documents", () => {
   function getDeletedDocs(documents: any = docs, deletedDocs: any = []) {
     let documentsArray = documents.value || documents;
     for (let doc of documentsArray) {
-      if(!doc) {
+      if (!doc) {
         continue
       }
       if (doc.isDeleted) {
@@ -125,7 +138,7 @@ export const useDocumentsStore = defineStore("documents", () => {
   );
 
   function addDocument(doc: any) {
-    if(!doc)
+    if (!doc)
       return
     docs.value.push(doc);
   }
@@ -162,5 +175,5 @@ export const useDocumentsStore = defineStore("documents", () => {
   }
 
 
-  return { docs, searchDocs: docsSearchResult, searchName, searchByName, addDocument, deleteDocument, activeDoc, setActiveDoc, deletedDocs, restoreDeleted, rmDocument };
+  return { docs, searchDocs: docsSearchResult, searchName, searchByName, addDocument, deleteDocument, activeDoc, setActiveDoc, deletedDocs, restoreDeleted, rmDocument, toggleActiveDocDirection };
 });

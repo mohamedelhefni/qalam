@@ -8,7 +8,7 @@ let store = useDocumentsStore()
 <template>
     <div class="flex items-center gap-2 my-2">
         <button
-            @click="store.addDocument({ id: Date.now(), name: ' عنصر جديد', isFolder: false, children: [], createdAt: Date.now() })"
+            @click="store.addDocument({ id: Date.now(), name: ' عنصر جديد', isFolder: false, children: [], createdAt: Date.now(), direction: 'rtl' })"
             class="hover:bg-base-100 p-1 rounded">
             <PhFilePlus :size="29" class="text-base-800" weight="fill" />
         </button>
