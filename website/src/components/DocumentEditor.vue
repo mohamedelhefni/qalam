@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import TurndownService from "turndown"
+import showDownService from "showdown"
 import { Editor, EditorContent } from '@tiptap/vue-3'
 import BulletList from '@tiptap/extension-bullet-list'
 import Highlight from '@tiptap/extension-highlight'
@@ -20,7 +20,7 @@ import {  onBeforeUnmount, onUpdated, ref } from "vue";
 import { PhArrowsLeftRight, PhCopy, PhList } from '@phosphor-icons/vue'
 const documentStore = useDocumentsStore()
 
-const turndownService = new TurndownService()
+const showDown = new showDownService.Converter()
 const value = ref(documentStore.activeDoc?.content || "")
 
 const editor = new Editor({
@@ -65,7 +65,7 @@ onBeforeUnmount(() => {
 })
 
 function copyContent() {
-  var markdown = turndownService.turndown(editor.getHTML())
+  let markdown = showDown.makeMarkdown(editor.getHTML())
   navigator.clipboard.writeText(markdown)
 }
 

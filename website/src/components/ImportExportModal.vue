@@ -5,12 +5,12 @@ import { guidGenerator } from "../utils/rand"
 import { PhExport } from "@phosphor-icons/vue"
 import { marked } from "marked"
 import JSZip from "jszip"
-import TurndownService from "turndown"
+import ShowDownService from "showdown"
 import { saveAs } from "file-saver"
 
 const documentStore = useDocumentsStore()
 const closeButton = ref()
-const turndownService = new TurndownService()
+const showDown = new ShowDownService .Converter()
 
 function getNodeName(node: string) {
     let name: any = node
@@ -103,7 +103,7 @@ function processData(data: any[], zip: any) {
                 processData(item.children, folder);
             }
         } else {
-            zip.file(`${item.name}.md`, turndownService.turndown(item.content || ""));
+            zip.file(`${item.name}.md`, showDown.makeMarkdown(item.content || ""));
         }
     });
 }
