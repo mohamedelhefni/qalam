@@ -29,7 +29,7 @@ onMounted(() => {
             <SettingsModal />
             <DeleteModal />
             <div class="drawer lg:drawer-open">
-                <input id="sidebar-drawer" type="checkbox" class="drawer-toggle" />
+                <input id="sidebar-drawer" @click="uiStore.toggleSidebar()" type="checkbox" class="drawer-toggle" />
                 <div class="lg:w-[300px]"></div>
                 <div class="drawer-content flex flex-col items-center justify-center">
                     <DocumentEditor />
