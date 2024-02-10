@@ -12,12 +12,13 @@ import TaskList from '@tiptap/extension-task-list'
 import Typography from '@tiptap/extension-typography'
 import TextAlign from '@tiptap/extension-text-align'
 import EditorMenu from "./EditorMenu.vue"
+import PublishDropdown from "./PublishDropdown.vue"
 import { beautifyDate } from "../utils/date"
 
 
 import { useDocumentsStore } from "../store/documents"
-import {  onBeforeUnmount, onUpdated, ref } from "vue";
-import { PhArrowsLeftRight, PhCopy, PhList } from '@phosphor-icons/vue'
+import { onBeforeUnmount, onUpdated, ref } from "vue";
+import { PhArrowsLeftRight, PhCopy, PhList, PhPlanet } from '@phosphor-icons/vue'
 const documentStore = useDocumentsStore()
 
 const showDown = new showDownService.Converter()
@@ -73,8 +74,8 @@ function copyContent() {
 </script>
 
 <template>
-
-  <div class="w-full prose no-scrollbar flex flex-col gap-5 p-5 max-w-6xl mx-auto " :dir="documentStore.activeDoc?.direction || 'rtl'">
+  <div class="w-full prose no-scrollbar flex flex-col gap-5 p-5 max-w-6xl mx-auto "
+    :dir="documentStore.activeDoc?.direction || 'rtl'">
     <div class="flex items-start justify-between ">
       <div class="flex flex-col gap-2">
         <h2 class="text-4xl font-bold pl-2 m-0">
@@ -89,6 +90,12 @@ function copyContent() {
       <div class="flex">
         <button @click="documentStore.toggleActiveDocDirection">
           <PhArrowsLeftRight :size="30" class=" hover:bg-base-200 rounded p-1 " />
+        </button>
+        <button>
+          <PublishDropdown>
+            <PhPlanet :size="30" class="hover:bg-base-200  rounded p-1 mt-1.5"
+              :class="{ 'fill-green-500': documentStore.activeDoc.published_id }" />
+          </PublishDropdown>
         </button>
         <button @click="copyContent">
           <PhCopy :size="30" class=" hover:bg-base-200 rounded p-1 " />

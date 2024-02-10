@@ -3,9 +3,8 @@ import { onMounted, ref } from 'vue';
 import { useSupabaseStore } from '../store/supabase';
 import Navbar from './Navbar.vue';
 import NoteContent from './NoteContent.vue';
-import SpinnerIcon from './SpinnerIcon.vue';
 
-let note = ref({})
+let note = ref()
 let supabaseStore = useSupabaseStore()
 let loading = ref(true)
 
@@ -13,9 +12,14 @@ let loading = ref(true)
 async function getNote() {
     let id = window.location.href.split("/").pop()
     if (id === "") return
-    const { data } = await supabaseStore.supabase.from('notes').select().eq('id', id).maybeSingle()
+    let data = await supabaseStore.getNote(id)
+    if (data === null) {
+        window.location.href = "/"
+        return
+    }
     note.value = data
     loading.value = false
+    supabaseStore.updateViewsCount(id, note.value.views + 1)
 }
 
 
@@ -29,7 +33,7 @@ onMounted(() => {
     <div>
         <Navbar />
         <div v-if="loading" class="flex items-center justify-center my-10">
-            <SpinnerIcon />
+            <span class="loading loading-infinity loading-lg"></span>
         </div>
         <NoteContent v-else :note="note" />
     </div>
