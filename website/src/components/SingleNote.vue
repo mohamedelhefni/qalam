@@ -10,7 +10,7 @@ let loading = ref(true)
 
 
 async function getNote() {
-    let id = window.location.href.split("/").pop()
+    let id = window.location.pathname.split('/')[1]
     if (id === "") return
     let data = await supabaseStore.getNote(id)
     if (data === null) {
