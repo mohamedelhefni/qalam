@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PhFolder, PhFileText, PhFolderOpen, PhTrash } from "@phosphor-icons/vue"
+import { PhFolder, PhFileText, PhFolderOpen, PhTrash, PhFileCloud } from "@phosphor-icons/vue"
 
 import { useDocumentsStore } from "../store/documents"
 import { ref } from "vue"
@@ -35,7 +35,8 @@ function doneEdit(item: any) {
                 <PhFolderOpen :size="32" v-else-if="(item?.isFolder && item?.isOpen)" class="text-base-800 p-1"
                     weight="fill" />
 
-                <PhFileText :size="32" v-else class="text-base-800  p-1" />
+                <PhFileCloud :size="32"  class="text-base-800  p-1"  v-else-if="item?.published_id" />
+                <PhFileText :size="32" v-else class="text-base-800  p-1"  />
             </div>
             <input v-if="isEdit" class="w-full bg-transparent" @blur="doneEdit(item)" @keyup.enter="doneEdit(item)"
                 v-model="editText" type="text">

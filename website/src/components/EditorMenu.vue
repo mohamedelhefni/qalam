@@ -17,6 +17,7 @@ const editor = props.editor
             <PhTextB :size="24" />
         </MenuButton>
 
+
         <MenuButton @click="editor.chain().focus().toggleItalic().run()" :is-active="editor.isActive('italic')">
             <PhTextItalic :size="24" />
         </MenuButton>

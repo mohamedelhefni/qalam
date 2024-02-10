@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@phosphor-icons/vue": "^2.1.4",
+    "@supabase/supabase-js": "^2.39.3",
     "@tiptap/extension-bullet-list": "^2.0.3",
     "@tiptap/extension-highlight": "^2.0.3",
     "@tiptap/extension-image": "^2.0.3",
@@ -24,12 +25,14 @@
     "@tiptap/vue-3": "^2.0.3",
     "@types/jszip": "^3.4.1",
     "@types/marked": "^4.3.1",
+    "@types/showdown": "^2.0.6",
     "@vercel/analytics": "^1.0.0",
+    "install": "^0.13.0",
     "jszip": "^3.10.1",
     "lodash-es": "^4.17.21",
     "marked": "^4.3.0",
     "pinia": "^2.0.35",
-    "turndown": "^7.1.2",
+    "showdown": "^2.1.0",
     "vue": "^3.2.47",
     "vuedraggable": "^4.1.0"
   },
