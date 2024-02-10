@@ -35,6 +35,6 @@ onMounted(() => {
         <div v-if="loading" class="flex items-center justify-center my-10">
             <span class="loading loading-infinity loading-lg"></span>
         </div>
-        <NoteContent v-else :note="note" />
+        <NoteContent v-else :note="note" :dir="note.is_rtl ? 'rtl' : 'ltr'" />
     </div>
 </template>

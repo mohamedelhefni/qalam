@@ -18,6 +18,7 @@ const PublishNote = async () => {
     let note = {
         title: documentsStore.activeDoc.name,
         content: documentsStore.activeDoc.content,
+        is_rtl: documentsStore.activeDoc.direction == 'rtl',
         user_token: userStore.getUserToken()
     }
     let publishedNote = await supabaseStore.publishNote(note)
@@ -38,6 +39,7 @@ function updateNote() {
         title: documentsStore.activeDoc.name,
         content: documentsStore.activeDoc.content,
         updated_at: new Date().toISOString(),
+        is_rtl: documentsStore.activeDoc.direction == 'rtl',
         user_token: userStore.getUserToken()
     }
     supabaseStore.updatePublishedNote(documentsStore.activeDoc.published_id, note)

@@ -9,7 +9,7 @@ export const useSupabaseStore = defineStore("supabase", () => {
 
 
     async function getNote(id: any) {
-        const { data } = await supabase.from('notes').select(`id, title, content, created_at, views`).eq('id', id).maybeSingle()
+        const { data } = await supabase.from('notes').select(`id, title, content, created_at, views, is_rtl`).eq('id', id).maybeSingle()
         return data
     }
 
