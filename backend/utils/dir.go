@@ -1,13 +1,17 @@
 package utils
 
-import "os"
+import (
+	"os"
+	"slices"
+)
 
 type File struct {
+	Path         string `json:"path"`
 	Name         string `json:"name"`
 	Size         int64  `json:"size"`
-	IsDir        bool   `json:"isDir"`
-	Children     []File `json:"children,omitempty"`
-	Content      string `json:"content,omitempty"`
+	IsFolder     bool   `json:"isFolder"`
+	Children     []File `json:"children"`
+	Content      string `json:"content"`
 	LastModified string `json:"lastModified"`
 }
 
@@ -24,10 +28,11 @@ func BuildDirTree(dirPath string) ([]File, error) {
 		}
 
 		newFile := File{
+			Path:         dirPath + "/" + file.Name(),
 			Name:         file.Name(),
 			Size:         fileInfo.Size(),
 			LastModified: fileInfo.ModTime().String(),
-			IsDir:        fileInfo.IsDir(),
+			IsFolder:     fileInfo.IsDir(),
 		}
 
 		if fileInfo.IsDir() {
@@ -39,28 +44,32 @@ func BuildDirTree(dirPath string) ([]File, error) {
 		}
 		dirFiles = append(dirFiles, newFile)
 	}
-
+	slices.Reverse(dirFiles)
 	return dirFiles, nil
 }
 
-func GetFile(name string) (File, error) {
-	file, err := os.ReadFile(name)
+func GetFile(path string) (File, error) {
+	file, err := os.ReadFile(path)
 	if err != nil {
 		return File{}, err
 	}
-	fileInfo, err := os.Stat(name)
+	fileInfo, err := os.Stat(path)
 	if err != nil {
 		return File{}, err
 	}
 	return File{
-		Name:         name,
+		Path:         path,
+		Name:         fileInfo.Name(),
 		Size:         fileInfo.Size(),
 		LastModified: fileInfo.ModTime().String(),
 		Content:      string(file),
-		IsDir:        fileInfo.IsDir(),
+		IsFolder:     fileInfo.IsDir(),
 	}, nil
 }
 
 func WriteFile(name string, content string) error {
 	return os.WriteFile(name, []byte(content), 0644)
+}
+func DeleteFile(name string) error {
+	return os.Remove(name)
 }
