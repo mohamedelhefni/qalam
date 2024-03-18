@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import NestedDraggable from "./NestedDraggable.vue";
 import { useDocumentsStore } from "../store/documents"
+import { onBeforeMount } from "vue";
 const store = useDocumentsStore()
-
+onBeforeMount(async () => {
+    await store.Init()
+})
 
 </script>
 <template>
@@ -13,7 +16,7 @@ const store = useDocumentsStore()
 </template>
 
 
-<style >
+<style>
 .dragArea {
     min-height: 5px;
     /* outline: 1px dashed; */

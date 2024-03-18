@@ -62,7 +62,7 @@ async function deleteNote() {
             class="dropdown-content z-[1] left-2  pb-5 px-5 shadow bg-base-100 rounded-box min-w-72 text-right">
             <h3 class="font-bold text-xl">نشر الملاحظه </h3>
 
-            <div v-if="documentsStore.activeDoc.published_id" class="w-96">
+            <div v-if="documentsStore.activeDoc?.published_id" class="w-96">
                 <div class="bg-base-200 border-base-200 px-2 rounded  flex items-center justify-between my-2">
                     <div class="p-1 ml-4 mr-2" @click="copyToClipboard(getPublishedUrl())">
                         <PhClipboard :size="24" class="cursor-pointer" />
@@ -72,7 +72,7 @@ async function deleteNote() {
             </div>
 
 
-            <template v-if="!documentsStore.activeDoc.published_id">
+            <template v-if="!documentsStore.activeDoc?.published_id">
                 <button @click="PublishNote" class="btn btn-sm text-sm btn-primary mt-2">نشر</button>
             </template>
 

@@ -19,10 +19,25 @@ import { beautifyDate } from "../utils/date"
 import { useDocumentsStore } from "../store/documents"
 import { onBeforeUnmount, onUpdated, ref } from "vue";
 import { PhArrowsLeftRight, PhCopy, PhList, PhPlanet } from '@phosphor-icons/vue'
+import { debounce } from "lodash-es"
 const documentStore = useDocumentsStore()
 
 const showDown = new showDownService.Converter()
 const value = ref(documentStore.activeDoc?.content || "")
+
+let updateContent = debounce((editor) => {
+  let markdownContent = showDown.makeMarkdown(editor.getHTML())
+  fetch(import.meta.env.VITE_API_URL + `/files/${documentStore.activeDoc.name}?path=` + documentStore.activeDoc.path, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ content: markdownContent }),
+  }).then(res => res.json()).then(data => {
+    console.log("response is ", data)
+  })
+
+}, 1000)
 
 const editor = new Editor({
   extensions: [
@@ -50,14 +65,14 @@ const editor = new Editor({
   content: value.value || "",
   onUpdate: ({ editor }) => {
 
-    documentStore.activeDoc.content = editor.getHTML()
-  },
+    updateContent(editor)
+  }
 })
 
 
 onUpdated(() => {
   editor.commands.focus()
-  value.value = documentStore.activeDoc?.content
+  value.value = showDown.makeHtml(documentStore.activeDoc?.content)
   editor.commands.setContent(value.value, false)
 })
 
@@ -94,7 +109,7 @@ function copyContent() {
         <button>
           <PublishDropdown>
             <PhPlanet :size="30" class="hover:bg-base-200  rounded p-1 mt-1.5"
-              :class="{ 'fill-green-500': documentStore.activeDoc.published_id }" />
+              :class="{ 'fill-green-500': documentStore.activeDoc?.published_id }" />
           </PublishDropdown>
         </button>
         <button @click="copyContent">

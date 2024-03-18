@@ -7,8 +7,10 @@ import SettingsModal from './components/SettingsModal.vue';
 import Sidebar from "./components/Sidebar.vue"
 import SingleNote from "./components/SingleNote.vue"
 import { useUIStore } from "./store/ui"
+import { useDocumentsStore } from './store/documents';
 const uiStore = useUIStore()
-
+const docsStore = useDocumentsStore()
+docsStore.Init()
 
 let isNote = window.location.href.split("/").pop() !== ''
 console.log("is note", isNote)

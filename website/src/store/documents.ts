@@ -2,51 +2,35 @@ import { defineStore } from "pinia";
 import { ref, watch } from "vue";
 
 export const useDocumentsStore = defineStore("documents", () => {
-  let docs = ref([
-    {
-      id: 1,
-      name: "الرئيسية",
-      isFolder: false,
-      isOpen: false,
-      direction: 'rtl',
-      children: [],
-      content: `<h1 id="-">مرحبا بك في قلم 👋</h1>
-<p>قلم هو موقع لتسجيل الملاحظات بشكل منظم بواجهة مستخدم بسيطه مخصص للغة العربية</p>
-<hr>
-<h2 id="-">طريقة الاستخدام</h2>
-<ul>
-<li>يمكنك انشاء ملف جديد عن طريق الضغط علي ايقونة <img src="https://khatat.vercel.app/Fileadd.svg" alt="ملف جديد"> </li>
-<li>يمكنك انشاء مجلد جديد بالضغط علي ايقونة <img src="https://khatat.vercel.app/Folderadd.svg" alt=""></li>
-<li>اضغط علي المجلد او الملف مرتين لتغير اسمه</li>
-<li>لتحريك الملف داخل المجلد يجب عليك فتحه اولا ليكون بالشكل <img src="https://khatat.vercel.app/FolderOpen.svg" alt="مجلد مفتوح">  ثم قم بتحريك الملف بداخله</li>
-</ul>
-<hr>
-<p><strong>تنبيه</strong> هذه نسخه تجريبيه بها الوظائف الاساسيه  تم انشائها في يوم واحد قد تحتوي علي بعض الاخطاء ولايوجد بها جميع الوظائف الخاصه بالموقع<br>للمشاركه او تقديم شكوي <a href="https://github.com/mohamedelhefni/qalam">Github</a>, <a href="mailto:mohamed.elhefni@outlook.com">Email</a></p>
-<hr>
-<p>تمت البرمجه بكل ❤️ بواسطة <a href="https://hefni101.netlify.app/">محمد الحفني</a></p>
-`,
-    },
-    {
-      id: 2,
-      name: "مجلد",
-      isFolder: true,
-      isOpen: true,
-      children: [
-        {
-          id: 3,
-          name: "ملف",
-          direction: 'rtl',
-          children: [],
-          content: "",
-        },
-      ],
-    },
-  ]);
+  let docs = ref([]);
   let docsSearchResult = ref([])
   let searchName = ref("")
   let activeDoc = ref();
   let deletedDocs = ref<any[]>([])
   let itemResult = ref({});
+  let opendedFolders = ref([]);
+
+
+  async function Init() {
+    let resp = await fetch(import.meta.env.VITE_API_URL + "/files");
+    let result = await resp.json();
+    let files = result.files.map((file: any) => {
+      file.isDeleted = deletedDocs.value.some(deletedDoc => deletedDoc.name === file.name)
+      file.isOpened = opendedFolders.value.some(folder => folder === file.path)
+      file.published_id = ""
+      return file
+    })
+    files.sort((a: any, b: any) => Number(b.isFolder) - Number(a.isFolder));
+    docs.value = files
+    const activeDocInLocalStorage = localStorage.getItem("activeDoc");
+    if (activeDocInLocalStorage) {
+      let item = JSON.parse(activeDocInLocalStorage)
+      setActiveDoc(getItem(item))
+    } else {
+      activeDoc.value = docs.value.filter((file: any) => !file.isFolder)[0];
+    }
+
+  }
 
   function toggleActiveDocDirection() {
     if (!activeDoc.value.direction) {
@@ -62,11 +46,11 @@ export const useDocumentsStore = defineStore("documents", () => {
   function getItem(document: any, documents: any = docs) {
     let documentsArray = documents.value || documents;
     for (let doc of documentsArray) {
-      if (doc.id == document.id) {
+      if (doc.path == document.path) {
         itemResult.value = doc;
         return doc;
       }
-      if (doc?.children.length > 0 && doc?.isFolder) {
+      if (doc?.children &&  doc?.children.length > 0 && doc?.isFolder) {
         getItem(document, doc.children);
       }
     }
@@ -106,32 +90,17 @@ export const useDocumentsStore = defineStore("documents", () => {
     deletedDocs.value = getDeletedDocs(docs)
   }
 
-  const docsInLocalStore = localStorage.getItem("documents");
-  if (docsInLocalStore) {
-    docs.value = JSON.parse(docsInLocalStore)._value;
-  }
-  const activeDocInLocalStorage = localStorage.getItem("activeDoc");
-  if (activeDocInLocalStorage) {
-    let item = JSON.parse(activeDocInLocalStorage)._value;
-    activeDoc.value = getItem(item);
-  } else {
-    activeDoc.value = docs.value[0];
-  }
-
+  // const docsInLocalStore = localStorage.getItem("documents");
+  // if (docsInLocalStore) {
+  //   docs.value = JSON.parse(docsInLocalStore)._value;
+  // }
   deletedDocs.value = getDeletedDocs(docs)
-
-  watch(
-    () => docs,
-    (state) => {
-      localStorage.setItem("documents", JSON.stringify(state));
-    },
-    { deep: true }
-  );
 
   watch(
     () => activeDoc,
     (state) => {
-      localStorage.setItem("activeDoc", JSON.stringify(state));
+      // let { content, ...rest } = state.value;
+      localStorage.setItem("activeDoc", JSON.stringify(state.value));
 
     },
     { deep: true }
@@ -140,6 +109,7 @@ export const useDocumentsStore = defineStore("documents", () => {
   function addDocument(doc: any) {
     if (!doc)
       return
+    //@ts-ignore
     docs.value.push(doc);
   }
 
@@ -149,7 +119,12 @@ export const useDocumentsStore = defineStore("documents", () => {
   }
 
   function setActiveDoc(doc: any) {
-    activeDoc.value = doc;
+    fetch(import.meta.env.VITE_API_URL + "/files?path=" + doc.path).then(res => res.json()).then(data => {
+      let file = data.file
+      file.published_id = ""
+      activeDoc.value = file;
+    })
+
   }
 
   function searchByName(name: string) {
@@ -175,5 +150,5 @@ export const useDocumentsStore = defineStore("documents", () => {
   }
 
 
-  return { docs, searchDocs: docsSearchResult, searchName, searchByName, addDocument, deleteDocument, activeDoc, setActiveDoc, deletedDocs, restoreDeleted, rmDocument, toggleActiveDocDirection };
+  return { Init, docs, searchDocs: docsSearchResult, opendedFolders, searchName, searchByName, addDocument, deleteDocument, activeDoc, setActiveDoc, deletedDocs, restoreDeleted, rmDocument, toggleActiveDocDirection };
 });

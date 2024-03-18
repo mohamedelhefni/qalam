@@ -26,9 +26,9 @@ function doneEdit(item: any) {
 
 </script>
 <template>
-    <button v-if="!item?.isDeleted" class="w-full flex items-center justify-between  rounded cursor-pointer gap-2  group "
-        :class="{ 'bg-base-100': store.activeDoc?.id === item?.id }"
-        @click="item?.children.length === 0 && !item?.isFolder && store.setActiveDoc(item)" @dblclick="isEdit = true">
+    <button class="w-full flex items-center justify-between  rounded cursor-pointer gap-2  group "
+        :class="{ 'bg-base-100': store.activeDoc?.name === item?.name }"
+        @click="!item?.isFolder && store.setActiveDoc(item)" @dblclick="isEdit = true">
         <div class="flex items-center ">
             <div class="icon">
                 <PhFolder :size="32" v-if="item?.isFolder && !item?.isActive" class="text-base-800 p-1" weight="fill" />
