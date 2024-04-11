@@ -12,7 +12,7 @@ const editor = props.editor
 
 <template>
     <bubble-menu :editor="editor" :tippy-options="{ duration: 100 }" v-if="editor"
-        class="bg-base-200 p-2 rounded rounded shadow flex items-center justify-center gap-2 border  min-w-[600px] w-full ">
+        class="bg-base-200 p-2 rounded shadow flex items-center justify-center gap-2 border  min-w-[600px] w-full ">
         <MenuButton @click="editor.chain().focus().toggleBold().run()" :is-active="editor.isActive('bold')">
             <PhTextB :size="24" />
         </MenuButton>

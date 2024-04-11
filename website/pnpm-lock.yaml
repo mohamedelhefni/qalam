@@ -23,6 +23,9 @@ dependencies:
   '@tiptap/extension-list-item':
     specifier: ^2.0.3
     version: 2.1.13(@tiptap/core@2.1.13)
+  '@tiptap/extension-mention':
+    specifier: ^2.3.0
+    version: 2.3.0(@tiptap/core@2.1.13)(@tiptap/pm@2.1.13)(@tiptap/suggestion@2.3.0)
   '@tiptap/extension-ordered-list':
     specifier: ^2.0.3
     version: 2.1.13(@tiptap/core@2.1.13)
@@ -44,6 +47,9 @@ dependencies:
   '@tiptap/starter-kit':
     specifier: ^2.0.3
     version: 2.1.13(@tiptap/pm@2.1.13)
+  '@tiptap/suggestion':
+    specifier: ^2.3.0
+    version: 2.3.0(@tiptap/core@2.1.13)(@tiptap/pm@2.1.13)
   '@tiptap/vue-3':
     specifier: ^2.0.3
     version: 2.1.13(@tiptap/core@2.1.13)(@tiptap/pm@2.1.13)(vue@3.4.5)
@@ -77,6 +83,9 @@ dependencies:
   showdown:
     specifier: ^2.1.0
     version: 2.1.0
+  tippy.js:
+    specifier: ^6.3.7
+    version: 6.3.7
   vue:
     specifier: ^3.2.47
     version: 3.4.5(typescript@5.3.3)
@@ -1935,6 +1944,18 @@ packages:
       '@tiptap/core': 2.1.13(@tiptap/pm@2.1.13)
     dev: false
 
+  /@tiptap/extension-mention@2.3.0(@tiptap/core@2.1.13)(@tiptap/pm@2.1.13)(@tiptap/suggestion@2.3.0):
+    resolution: {integrity: sha512-Zu18LIKOMWm7XQztGuwLTxGGwGMc0QDbEAXB5TLrKFYWdHoaU0wu65+mBa61kuUoZ1Ur71J7vu2tuU70uPd16w==}
+    peerDependencies:
+      '@tiptap/core': ^2.0.0
+      '@tiptap/pm': ^2.0.0
+      '@tiptap/suggestion': ^2.0.0
+    dependencies:
+      '@tiptap/core': 2.1.13(@tiptap/pm@2.1.13)
+      '@tiptap/pm': 2.1.13
+      '@tiptap/suggestion': 2.3.0(@tiptap/core@2.1.13)(@tiptap/pm@2.1.13)
+    dev: false
+
   /@tiptap/extension-ordered-list@2.1.13(@tiptap/core@2.1.13):
     resolution: {integrity: sha512-UO4ZAL5Vrr1WwER5VjgmeNIWHpqy9cnIRo1En07gZ0OWTjs1eITPcu+4TCn1ZG6DhoFvAQzE5DTxxdhIotg+qw==}
     peerDependencies:
@@ -2048,6 +2069,16 @@ packages:
       '@tiptap/extension-text': 2.1.13(@tiptap/core@2.1.13)
     transitivePeerDependencies:
       - '@tiptap/pm'
+    dev: false
+
+  /@tiptap/suggestion@2.3.0(@tiptap/core@2.1.13)(@tiptap/pm@2.1.13):
+    resolution: {integrity: sha512-QngwR9ahodVfwqp/kXxJvuL3zNb6XZu+vCuWy8RJrGP8DA7SCI9t8t7iB6NfG4kSsRGxM+3DuLi+2xOZQUaEVQ==}
+    peerDependencies:
+      '@tiptap/core': ^2.0.0
+      '@tiptap/pm': ^2.0.0
+    dependencies:
+      '@tiptap/core': 2.1.13(@tiptap/pm@2.1.13)
+      '@tiptap/pm': 2.1.13
     dev: false
 
   /@tiptap/vue-3@2.1.13(@tiptap/core@2.1.13)(@tiptap/pm@2.1.13)(vue@3.4.5):

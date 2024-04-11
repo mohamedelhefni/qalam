@@ -12,7 +12,7 @@ export default {
         return emoji.alias.join(", ").includes(query.toLowerCase())
       }
       return emoji.alias.toLowerCase().includes(query.toLowerCase())
-    })
+    }).slice(0, 10)
   },
 
 

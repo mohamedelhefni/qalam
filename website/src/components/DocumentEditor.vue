@@ -19,7 +19,7 @@ import { beautifyDate } from "../utils/date"
 import suggestion from "./suggestion"
 
 import { useDocumentsStore } from "../store/documents"
-import { onBeforeUnmount, onUpdated, ref } from "vue";
+import { onBeforeUnmount, onMounted, onUpdated, ref } from "vue";
 import { PhArrowsLeftRight, PhCopy, PhList, PhPlanet } from '@phosphor-icons/vue'
 const documentStore = useDocumentsStore()
 
@@ -72,6 +72,10 @@ onUpdated(() => {
   editor.commands.focus()
   value.value = documentStore.activeDoc?.content
   editor.commands.setContent(value.value, false)
+})
+
+onMounted(() => {
+  editor.commands.focus();
 })
 
 onBeforeUnmount(() => {
