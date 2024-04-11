@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { mergeAttributes } from '@tiptap/core'
 import showDownService from "showdown"
 import { Editor, EditorContent } from '@tiptap/vue-3'
 import BulletList from '@tiptap/extension-bullet-list'
@@ -11,10 +12,11 @@ import TaskItem from '@tiptap/extension-task-item'
 import TaskList from '@tiptap/extension-task-list'
 import Typography from '@tiptap/extension-typography'
 import TextAlign from '@tiptap/extension-text-align'
+import Mention from "@tiptap/extension-mention"
 import EditorMenu from "./EditorMenu.vue"
 import PublishDropdown from "./PublishDropdown.vue"
 import { beautifyDate } from "../utils/date"
-
+import suggestion from "./suggestion"
 
 import { useDocumentsStore } from "../store/documents"
 import { onBeforeUnmount, onUpdated, ref } from "vue";
@@ -26,7 +28,6 @@ const value = ref(documentStore.activeDoc?.content || "")
 
 const editor = new Editor({
   extensions: [
-
     StarterKit,
     Highlight,
     TextAlign.configure({
@@ -46,10 +47,22 @@ const editor = new Editor({
     TaskItem.configure({
       nested: true,
     }),
+    Mention.configure({
+      HTMLAttributes: {
+        class: 'mention'
+      },
+      suggestion: suggestion,
+      renderHTML({ options, node }) {
+        return [
+          'span',
+          mergeAttributes({}, options.HTMLAttributes),
+          `${node.attrs.label ?? node.attrs.id}`,
+        ]
+      },
+    })
   ],
   content: value.value || "",
   onUpdate: ({ editor }) => {
-
     documentStore.activeDoc.content = editor.getHTML()
   },
 })
