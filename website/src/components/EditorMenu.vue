@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { Editor, BubbleMenu } from "@tiptap/vue-3"
+import { Editor } from "@tiptap/vue-3"
+import { BubbleMenu } from "@tiptap/extension-bubble-menu"
 import { PhBroom, PhCodeBlock, PhHighlighterCircle, PhListBullets, PhListNumbers, PhParagraph, PhQuotes, PhTextAlignCenter, PhTextAlignRight, PhTextB, PhTextHOne, PhTextHTwo, PhTextItalic, PhTextStrikethrough } from "@phosphor-icons/vue"
 import MenuButton from "./MenuButton.vue"
 

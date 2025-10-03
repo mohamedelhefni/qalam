@@ -71,7 +71,7 @@ const editor = new Editor({
 onUpdated(() => {
   editor.commands.focus()
   value.value = documentStore.activeDoc?.content
-  editor.commands.setContent(value.value, false)
+  editor.commands.setContent(value.value, { emitUpdate: false })
 })
 
 onMounted(() => {
