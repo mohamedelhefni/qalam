@@ -44,7 +44,7 @@ function doneEdit(item: any) {
                 {{ item?.name }}
             </p>
         </div>
-        <div class=" hidden group-hover:block w-1/6 ">
+        <div class="w-1/6 opacity-100 sm:opacity-0 sm:group-hover:opacity-100">
             <PhTrash @click.stop="deleteDoc(item)" :size="28" class="text-red-500 p-1" />
         </div>
     </button>
