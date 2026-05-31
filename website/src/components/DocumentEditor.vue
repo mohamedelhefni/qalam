@@ -13,15 +13,18 @@ import TaskList from '@tiptap/extension-task-list'
 import Typography from '@tiptap/extension-typography'
 import TextAlign from '@tiptap/extension-text-align'
 import Mention from "@tiptap/extension-mention"
+import VimExtension from "../extensions/VimExtension.ts"
 import EditorMenu from "./EditorMenu.vue"
 import PublishDropdown from "./PublishDropdown.vue"
 import { beautifyDate } from "../utils/date"
 import suggestion from "./suggestion"
 
 import { useDocumentsStore } from "../store/documents"
-import { onBeforeUnmount, onMounted, onUpdated, ref } from "vue";
+import { useUIStore } from "../store/ui"
+import { onBeforeUnmount, onMounted, onUpdated, ref, watch } from "vue";
 import { PhArrowsLeftRight, PhCopy, PhList, PhPlanet } from '@phosphor-icons/vue'
 const documentStore = useDocumentsStore()
+const uiStore = useUIStore()
 
 const showDown = new showDownService.Converter()
 const value = ref(documentStore.activeDoc?.content || "")
@@ -43,6 +46,7 @@ const editor = new Editor({
     BulletList,
     OrderedList,
     ListItem,
+    VimExtension,
     TaskList,
     TaskItem.configure({
       nested: true,
@@ -76,6 +80,13 @@ onUpdated(() => {
 
 onMounted(() => {
   editor.commands.focus();
+})
+
+// Dispatch a no-op transaction when vim mode is toggled so the plugin's
+// view.update() runs immediately and the caret class / block cursor refresh.
+watch(() => uiStore.vimEnabled, (enabled) => {
+  if (!enabled) (editor.storage as Record<string, any>).vimExtension.mode = 'normal'
+  editor.view.dispatch(editor.state.tr.setMeta('addToHistory', false))
 })
 
 onBeforeUnmount(() => {

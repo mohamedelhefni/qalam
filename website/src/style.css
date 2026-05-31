@@ -13,3 +13,34 @@ html,
 body {
   font-family: "IBM Plex Sans Arabic", sans-serif;
 }
+
+/* ── Vim cursor ──────────────────────────────────────────────────────────── */
+
+/* Hide the native text caret in normal mode */
+.vim-normal-mode {
+  caret-color: transparent !important;
+}
+
+/* Block cursor: highlight the character under the cursor */
+.vim-block-cursor {
+  background-color: rgba(107, 114, 128, 0.75);
+  color: #fff;
+  border-radius: 2px;
+  animation: vim-blink 1.2s step-end infinite;
+}
+
+/* End-of-line cursor widget (no character to highlight) */
+.vim-eol-cursor {
+  display: inline-block;
+  width: 0.5em;
+  height: 1.15em;
+  background-color: rgba(107, 114, 128, 0.75);
+  border-radius: 2px;
+  vertical-align: text-bottom;
+  animation: vim-blink 1.2s step-end infinite;
+}
+
+@keyframes vim-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}

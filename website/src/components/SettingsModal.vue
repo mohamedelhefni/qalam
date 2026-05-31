@@ -51,6 +51,14 @@ function changeBodyTheme(theme: string) {
       <p class="py-4"></p>
       <div class="modal-content">
 
+        <div class="flex items-center justify-between bg-base-200 rounded px-4 py-3 mb-5">
+          <div class="flex items-center gap-2">
+            <span class="text-lg">⌨️</span>
+            <span class="font-medium">وضع Vim</span>
+          </div>
+          <input type="checkbox" class="toggle" :checked="uiStore.vimEnabled" @change="uiStore.toggleVim()" />
+        </div>
+
         <div class="collapse bg-base-200 collapse-plus mb-5">
           <input type="checkbox" />
           <div class="collapse-title text-xl font-medium">

@@ -2,7 +2,6 @@
 import { PhTrash, PhGear, PhExport } from "@phosphor-icons/vue"
 import { useDocumentsStore } from "../store/documents"
 const documentStore = useDocumentsStore()
-
 </script>
 
 <template>

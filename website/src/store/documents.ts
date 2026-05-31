@@ -108,11 +108,13 @@ export const useDocumentsStore = defineStore("documents", () => {
 
   const docsInLocalStore = localStorage.getItem("documents");
   if (docsInLocalStore) {
-    docs.value = JSON.parse(docsInLocalStore)._value;
+    const parsed = JSON.parse(docsInLocalStore);
+    docs.value = Array.isArray(parsed) ? parsed : (parsed._value ?? []);
   }
   const activeDocInLocalStorage = localStorage.getItem("activeDoc");
   if (activeDocInLocalStorage) {
-    let item = JSON.parse(activeDocInLocalStorage)._value;
+    const parsed = JSON.parse(activeDocInLocalStorage);
+    let item = parsed?._value !== undefined ? parsed._value : parsed;
     activeDoc.value = getItem(item);
   } else {
     activeDoc.value = docs.value[0];
@@ -123,7 +125,7 @@ export const useDocumentsStore = defineStore("documents", () => {
   watch(
     () => docs,
     (state) => {
-      localStorage.setItem("documents", JSON.stringify(state));
+      localStorage.setItem("documents", JSON.stringify(state.value));
     },
     { deep: true }
   );
@@ -131,8 +133,7 @@ export const useDocumentsStore = defineStore("documents", () => {
   watch(
     () => activeDoc,
     (state) => {
-      localStorage.setItem("activeDoc", JSON.stringify(state));
-
+      localStorage.setItem("activeDoc", JSON.stringify(state.value));
     },
     { deep: true }
   );
