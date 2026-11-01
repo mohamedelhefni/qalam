@@ -3,11 +3,11 @@ import { ref } from "vue";
 
 export const useUIStore = defineStore("ui", () => {
     let isActive = ref(false)
-    let theme = ref("cupcake")
+    let theme = ref(window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
     let vimEnabled = ref(false)
 
     const localStorageTheme = localStorage.getItem("theme");
-    if (localStorageTheme) {
+    if (localStorageTheme === '"light"' || localStorageTheme === '"dark"') {
         theme.value = JSON.parse(localStorageTheme);
     }
 
