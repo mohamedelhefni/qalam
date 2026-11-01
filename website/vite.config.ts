@@ -11,11 +11,12 @@ export default defineConfig({
       enabled: true
     },
     includeAssets: ['logo.svg'],
+    workbox: { globPatterns: ['**/*.{js,css,html,woff2}'] },
     manifest: {
       name: 'Khatat',
       short_name: 'Khatat',
       description: 'a note taking app for arabic',
-      theme_color: '#888',
+      theme_color: '#0a0a0a',
       icons: [
         {
           src: '/logo.png',
