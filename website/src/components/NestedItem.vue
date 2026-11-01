@@ -27,13 +27,12 @@ function doneEdit(item: any) {
 </script>
 <template>
     <button v-if="!item?.isDeleted" class="w-full flex items-center justify-between  rounded cursor-pointer gap-2  group "
-        :class="{ 'bg-base-100': store.activeDoc?.id === item?.id }"
+        :class="{ 'bg-secondary text-secondary-content': store.activeDoc?.id === item?.id }"
         @click="item?.children.length === 0 && !item?.isFolder && store.setActiveDoc(item)" @dblclick="isEdit = true">
         <div class="flex items-center ">
             <div class="icon">
-                <PhFolder :size="32" v-if="item?.isFolder && !item?.isActive" class="text-base-800 p-1" weight="fill" />
-                <PhFolderOpen :size="32" v-else-if="(item?.isFolder && item?.isOpen)" class="text-base-800 p-1"
-                    weight="fill" />
+                <PhFolder :size="32" v-if="item?.isFolder && !item?.isActive" class="text-base-800 p-1" />
+                <PhFolderOpen :size="32" v-else-if="(item?.isFolder && item?.isOpen)" class="text-base-800 p-1" />
 
                 <PhFileCloud :size="32"  class="text-base-800  p-1"  v-else-if="item?.published_id" />
                 <PhFileText :size="32" v-else class="text-base-800  p-1"  />
@@ -45,7 +44,7 @@ function doneEdit(item: any) {
             </p>
         </div>
         <div class="w-1/6 opacity-100 sm:opacity-0 sm:group-hover:opacity-100">
-            <PhTrash @click.stop="deleteDoc(item)" :size="28" class="text-red-500 p-1" />
+            <PhTrash @click.stop="deleteDoc(item)" :size="28" class="text-error p-1" />
         </div>
     </button>
 </template>

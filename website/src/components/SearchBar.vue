@@ -12,6 +12,6 @@ let name = ref("")
     <div class="flex items-center relative">
         <PhMagnifyingGlass :size="45" class="p-3 absolute" />
         <input @input="store.searchByName(name)" v-model="name"
-            class="p-2 w-full rounded bg-base-100 border border-base-200 pr-10" type="text" placeholder="بحث ...">
+            class="input input-bordered bg-base-100 w-full pr-10" type="text" aria-label="بحث" placeholder="بحث ...">
     </div>
 </template>

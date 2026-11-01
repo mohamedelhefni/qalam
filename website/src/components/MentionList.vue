@@ -88,29 +88,28 @@ export default {
 .items {
     padding: 0.2rem;
     position: relative;
-    border-radius: 0.5rem;
-    background: #FFF;
-    color: rgba(0, 0, 0, 0.8);
+    border-radius: 12px;
+    background: var(--surface-raised);
+    color: hsl(var(--bc));
+    border: 1px solid hsl(var(--b3));
     overflow: hidden;
     font-size: 0.9rem;
-    box-shadow:
-        0 0 0 1px rgba(0, 0, 0, 0.05),
-        0px 10px 20px rgba(0, 0, 0, 0.1),
-    ;
+    box-shadow: var(--shadow-md);
 }
 
 .item {
     display: block;
     margin: 0;
     width: 100%;
-    text-align: left;
+    text-align: start;
     background: transparent;
-    border-radius: 0.4rem;
+    border-radius: 8px;
     border: 1px solid transparent;
     padding: 0.2rem 0.4rem;
 
     &.is-selected {
-        border-color: #000;
+        background: hsl(var(--s));
+        color: hsl(var(--sc));
     }
 }
 </style>

@@ -4,7 +4,7 @@ const props = defineProps({ isActive: Boolean })
 
 
 <template>
-    <button class="rounded p-1" :class="{ 'bg-base-100 text-base-content': props.isActive }">
+    <button class="rounded p-1" :class="{ 'bg-secondary text-secondary-content': props.isActive }">
         <slot></slot>
     </button>
 </template>

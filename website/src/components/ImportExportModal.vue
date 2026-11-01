@@ -132,19 +132,19 @@ function isWindows() {
     <dialog id="importExportModal" class="modal">
         <form method="dialog" class="modal-box">
 
-            <h3 class="font-bold text-lg">تصدير / استيراد</h3>
+            <h3>تصدير / استيراد</h3>
             <p class="py-4"></p>
             <div class="modal-content">
                 <div class="flex flex-col w-full border-opacity-50">
                     <div class="flex flex-col gap-3">
-                        <h3 class="text-xl font-bold"> تصدير </h3>
+                        <h3> تصدير </h3>
                         <button @click="exportFiles" class="btn btn-primary flex items-center">
-                            <PhExport :size="26" class="text-base-content" /><span class="mt-1"> تصدير جميع الملفات</span>
+                            <PhExport :size="26" /><span class="mt-1"> تصدير جميع الملفات</span>
                         </button>
                     </div>
                     <div class="divider"></div>
                     <div class="flex flex-col gap-3" v-if="!isWindows()">
-                        <h3 class="text-xl font-bold">استيراد</h3>
+                        <h3>استيراد</h3>
                         <input @change="importFiles" class="file-input w-full max-w-xs" type="file" id="picker"
                             name="fileList" webkitdirectory multiple />
                     </div>

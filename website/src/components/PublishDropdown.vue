@@ -59,8 +59,8 @@ async function deleteNote() {
             <slot />
         </button>
         <div tabindex="0"
-            class="dropdown-content z-[1] left-2  pb-5 px-5 shadow bg-base-100 rounded-box min-w-72 text-right">
-            <h3 class="font-bold text-xl">نشر الملاحظه </h3>
+            class="dropdown-content z-[1] left-2  pb-5 px-5 shadow-md border border-base-300 font-sans bg-base-100 rounded-box min-w-72 text-right">
+            <h3>نشر الملاحظه </h3>
 
             <div v-if="documentsStore.activeDoc.published_id" class="w-96">
                 <div class="bg-base-200 border-base-200 px-2 rounded  flex items-center justify-between my-2">

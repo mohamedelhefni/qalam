@@ -102,31 +102,31 @@ function copyContent() {
 </script>
 
 <template>
-  <div class="w-full prose no-scrollbar flex flex-col gap-5 p-5 max-w-6xl mx-auto "
+  <div class="w-full prose no-scrollbar flex flex-col gap-5 p-5 max-w-[68ch] mx-auto "
     :dir="documentStore.activeDoc?.direction || 'rtl'">
     <div class="flex items-start justify-between ">
       <div class="flex flex-col gap-2">
-        <h2 class="text-4xl font-bold pl-2 m-0">
+        <h1 class="pl-2 m-0">
           {{ documentStore.activeDoc?.name }}
-        </h2>
-        <p class="text-sm text-muted">{{ beautifyDate(documentStore.activeDoc?.createdAt) }}</p>
+        </h1>
+        <p class="font-sans text-sm text-muted m-0">{{ beautifyDate(documentStore.activeDoc?.createdAt) }}</p>
       </div>
 
       <label for="sidebar-drawer">
-        <PhList :size="28" class="w-10 hover:bg-base-100 rounded p-1 block md:hidden " />
+        <PhList :size="28" class="w-10 hover:bg-secondary rounded p-1 block md:hidden " />
       </label>
       <div class="flex">
         <button @click="documentStore.toggleActiveDocDirection">
-          <PhArrowsLeftRight :size="30" class=" hover:bg-base-200 rounded p-1 " />
+          <PhArrowsLeftRight :size="30" class=" hover:bg-secondary rounded p-1 " />
         </button>
         <button>
           <PublishDropdown>
-            <PhPlanet :size="30" class="hover:bg-base-200  rounded p-1 mt-1.5"
-              :class="{ 'fill-green-500': documentStore.activeDoc.published_id }" />
+            <PhPlanet :size="30" class="hover:bg-secondary  rounded p-1 mt-1.5"
+              :class="{ 'fill-success': documentStore.activeDoc.published_id }" />
           </PublishDropdown>
         </button>
         <button @click="copyContent">
-          <PhCopy :size="30" class=" hover:bg-base-200 rounded p-1 " />
+          <PhCopy :size="30" class=" hover:bg-secondary rounded p-1 " />
         </button>
       </div>
 

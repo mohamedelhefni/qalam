@@ -15,7 +15,7 @@ const uiStore = useUIStore()
 <template>
     <div class="drawer-side  h-full min-h-screen  ">
         <label for="sidebar-drawer" class="drawer-overlay"></label>
-        <div class="fixed md:visible w-[300px] h-full overflow-scroll min-h-screen bg-base-200" :class="{'visible': uiStore.isActive, 'invisible': !uiStore.isActive}" >
+        <div class="fixed md:visible w-[300px] h-full overflow-scroll min-h-screen bg-base-200 border-e border-base-300" :class="{'visible': uiStore.isActive, 'invisible': !uiStore.isActive}" >
             <div class="w-full flex flex-col items-start justify-between min-h-screen pb-10  p-3 py-5 gap-5">
                 <div class="flex flex-col gap-2 bg-base-200 w-full ">
                     <Logo />
