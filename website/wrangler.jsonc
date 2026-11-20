@@ -1,0 +1,6 @@
+{
+  "name": "qalam",
+  "compatibility_date": "2026-11-01",
+  "assets": { "directory": "./dist", "not_found_handling": "single-page-application" },
+  "routes": [{ "pattern": "qalam.hefni101.dev", "custom_domain": true }]
+}
