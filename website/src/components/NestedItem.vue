@@ -31,7 +31,7 @@ function doneEdit(item: any) {
         @click="item?.children.length === 0 && !item?.isFolder && store.setActiveDoc(item)" @dblclick="isEdit = true">
         <div class="flex items-center ">
             <div class="icon">
-                <PhFolder :size="32" v-if="item?.isFolder && !item?.isActive" class="text-base-800 p-1" />
+                <PhFolder :size="32" v-if="item?.isFolder && !item?.isOpen" class="text-base-800 p-1" />
                 <PhFolderOpen :size="32" v-else-if="(item?.isFolder && item?.isOpen)" class="text-base-800 p-1" />
 
                 <PhFileCloud :size="32"  class="text-base-800  p-1"  v-else-if="item?.published_id" />
